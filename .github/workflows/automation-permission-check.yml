@@ -1,0 +1,107 @@
+name: Verify draft PR permissions
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: automation-permission-check
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    if: github.ref_type == 'branch' && github.repository == 'Geolize-Studio/laravel-chile' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      TEST_BRANCH: automation/permission-check-${{ github.run_id }}-${{ github.run_attempt }}
+      BASE_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Prepare an isolated permission fixture
+        run: |
+          mkdir -p .github
+          printf 'Permission check for run %s. Synthetic fixture; never merge.\n' "$GITHUB_RUN_ID" > .github/permission-check.txt
+      - name: Open a synthetic draft with the maintenance action
+        id: proposal
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          base: ${{ env.BASE_BRANCH }}
+          branch: ${{ env.TEST_BRANCH }}
+          add-paths: .github/permission-check.txt
+          draft: always-true
+          commit-message: 'test: verify draft PR permissions'
+          title: 'test: draft PR permission check (do not merge)'
+          body: 'Synthetic permission fixture. Contains no source-data update. The workflow verifies this draft and closes it without merging.'
+      - name: Verify draft identity and exact scope
+        env:
+          PR_NUMBER: ${{ steps.proposal.outputs.pull-request-number }}
+        run: |
+          test -n "$PR_NUMBER"
+          gh api "repos/$GH_REPO/pulls/$PR_NUMBER" > /tmp/permission-pr.json
+          gh api "repos/$GH_REPO/pulls/$PR_NUMBER/files" > /tmp/permission-files.json
+          python3 - <<'PY'
+          import json, os
+          pr = json.load(open('/tmp/permission-pr.json'))
+          files = json.load(open('/tmp/permission-files.json'))
+          assert pr['draft'] and pr['state'] == 'open' and not pr['merged']
+          assert pr['user']['login'] == 'github-actions[bot]'
+          assert pr['head']['ref'] == os.environ['TEST_BRANCH']
+          assert pr['head']['repo']['full_name'] == os.environ['GH_REPO']
+          assert pr['base']['ref'] == os.environ['BASE_BRANCH']
+          assert [f['filename'] for f in files] == ['.github/permission-check.txt']
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write(f"Verified bot-owned draft #{pr['number']}; one synthetic file; no catalog changes.\n")
+          PY
+      - name: Remove only this run's synthetic PR and branch
+        if: always() && steps.proposal.outcome != 'skipped'
+        run: |
+          python3 - <<'PYTHON'
+          import json, os, subprocess
+          from urllib.parse import quote
+
+          repo, branch = os.environ['GH_REPO'], os.environ['TEST_BRANCH']
+          prefix = f'repos/{repo}'
+          def api(endpoint, method='GET', missing=False):
+              result = subprocess.run(['gh', 'api', '--method', method, endpoint], capture_output=True, text=True)
+              if result.returncode:
+                  if missing and 'HTTP 404' in result.stderr:
+                      return None
+                  raise RuntimeError(result.stderr)
+              return json.loads(result.stdout) if result.stdout.strip() else None
+
+          ref_path = f"{prefix}/git/ref/heads/{quote(branch, safe='')}"
+          ref = api(ref_path, missing=True)
+          head = quote(repo.split('/')[0] + ':' + branch, safe='')
+          pulls = api(f'{prefix}/pulls?head={head}&state=all&per_page=100')
+          assert len(pulls) <= 1, 'Unexpected duplicate fixture PRs'
+          if ref:
+              comparison = api(f"{prefix}/compare/{os.environ['GITHUB_SHA']}...{ref['object']['sha']}")
+              assert [f['filename'] for f in comparison['files']] == ['.github/permission-check.txt']
+              commit = api(f"{prefix}/commits/{ref['object']['sha']}")
+              assert (commit.get('committer') or {}).get('login') == 'github-actions[bot]'
+          for pr in pulls:
+              assert pr['user']['login'] == 'github-actions[bot]' and pr['draft']
+              assert pr['head']['ref'] == branch and pr['head']['repo']['full_name'] == repo
+              assert pr['base']['ref'] == os.environ['BASE_BRANCH'] and not pr['merged_at']
+              files = api(f"{prefix}/pulls/{pr['number']}/files")
+              assert [f['filename'] for f in files] == ['.github/permission-check.txt']
+              if pr['state'] == 'open':
+                  subprocess.run(['gh', 'pr', 'close', str(pr['number'])], check=True)
+              closed = api(f"{prefix}/pulls/{pr['number']}")
+              assert closed['state'] == 'closed' and not closed['merged']
+          if ref:
+              api(ref_path.replace('/git/ref/', '/git/refs/'), method='DELETE')
+          assert api(ref_path, missing=True) is None, 'Fixture branch remains'
+          PYTHON
