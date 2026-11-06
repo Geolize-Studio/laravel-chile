@@ -5,7 +5,7 @@ description: Implement or integrate geolize-studio/laravel-chile domain features
 
 # Chile Development
 
-`geolize-studio/laravel-chile` provides RUT, territory, and money modules in the public [Laravel Chile repository](https://github.com/Geolize-Studio/laravel-chile). It is unreleased and not published on Packagist. For development evaluation, add that URL as a Composer VCS repository and require `geolize-studio/laravel-chile:dev-main`; the README contains the exact commands. Do not present the moving development branch as a stable release. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
+`geolize-studio/laravel-chile` provides RUT, territory, and money modules in the public [Laravel Chile repository](https://github.com/Geolize-Studio/laravel-chile). This skill describes `0.1.0`. Install the `0.1` release line with `composer require "geolize-studio/laravel-chile:^0.1"` from Packagist; no custom VCS repository is required. During `0.x`, APIs may change in minor releases, so inspect the changelog before widening the version constraint. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
 
 ## Implemented API
 
@@ -43,7 +43,7 @@ Resolve the package root with `Composer\InstalledVersions::getInstallPath('geoli
 
 ## Scope
 
-The v1 scope is limited to three offline, deterministic domains:
+The `0.1` scope is limited to three offline, deterministic domains:
 
 - RUT parsing, validation, canonical storage, and presentation.
 - Chilean territory through the official region → province → comuna hierarchy and CUT codes.

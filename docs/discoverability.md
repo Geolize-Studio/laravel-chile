@@ -2,7 +2,7 @@
 
 Research checked: **2026-11-06**. Package: `geolize-studio/laravel-chile`.
 
-**Status: pre-release design.** This document specifies publication and verification work. The workspace contains a bundled skill, but the [public repository](https://github.com/Geolize-Studio/laravel-chile) is available; there is no Packagist release or tagged PHP API yet. The implemented checkout has a production-consumer smoke test; see [verification evidence](verification.md). Examples below are planned metadata and future checks, not working installation instructions.
+**Package version: 0.1.0.** This document describes the discovery surfaces and evaluation methods for the [public repository](https://github.com/Geolize-Studio/laravel-chile) and [Packagist package](https://packagist.org/packages/geolize-studio/laravel-chile). The package includes a bundled skill and a production-consumer smoke test; see [verification evidence](verification.md). Public indexing, search ranking, and unprompted agent recommendation require separate measurement.
 
 ## What success means
 
@@ -21,18 +21,18 @@ An agent should be able to find the package for a relevant Chilean development t
 
 Composer defines package names, descriptions, keywords, homepage, license, support links, and runtime requirements. Keywords support search and filtering. Keep metadata specific, truthful, and consistent with the released scope. Omit a manual `version` field when versions come from VCS tags. [Composer schema](https://getcomposer.org/doc/04-schema.md)
 
-Planned baseline metadata:
+Implemented metadata excerpt:
 
 ```json
 {
   "name": "geolize-studio/laravel-chile",
   "type": "library",
-  "description": "Chilean domain primitives and Laravel integration with explicit validation and documented data provenance.",
-  "keywords": ["php", "laravel", "chile", "chilean", "validation"]
+  "description": "Thoughtful tools for Chilean applications: RUT, official CUT territory data, and exact CLP/IVA arithmetic for Laravel.",
+  "keywords": ["php", "laravel", "chile", "rut", "comunas", "cut", "clp", "iva"]
 }
 ```
 
-Add module keywords only when their behavior is implemented, tested, documented, and included in the release: `rut`, `run`, `clp`, `iva`, `cut`, `comunas`, `regiones`, `provincias`, `ppu`. Do not add terms for roadmap features. Set `homepage` and `support.docs`, `support.issues`, and `support.source` only to real public endpoints. Declare the actual license, PHP/extensions, and framework constraints.
+Add module keywords only when their behavior is implemented, tested, documented, and included in the release. The current keywords above match the shipped scope. Do not add terms for roadmap features. Set `homepage` and `support.docs`, `support.issues`, and `support.source` only to real public endpoints. Declare the actual license, PHP/extensions, and framework constraints.
 
 Packagist exposes anonymous name and tag search, vendor listing, and Composer metadata. Agents can use these interfaces without installing the package. Search results are paginated: absence from page one does not prove absence. Composer v2's `p2` metadata represents tagged releases; development branches use the `~dev` variant. [Packagist API](https://packagist.org/apidoc)
 
@@ -50,7 +50,7 @@ These are verification targets, not claims about their current responses. Preser
 
 ### GitHub
 
-Use the repository name `laravel-chile`, a concise English About description, and a real documentation link. Suggested initial topics: `php`, `laravel`, `chile`, `chilean`, `composer-package`, `validation`. Add domain topics as modules ship. GitHub supports topic-based discovery; topics must be relevant and there can be at most 20. [GitHub topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics)
+Use the repository name `laravel-chile`, a concise English About description, and a real documentation link. The repository topics are `php`, `laravel`, `chile`, `rut`, `clp`, `iva`, and `comunas`. Update domain topics as modules ship. GitHub supports topic-based discovery; topics must be relevant and there can be at most 20. [GitHub topics](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics)
 
 The README should explain utility, capabilities, and usage. [GitHub README guidance](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes) Our first screen should contain:
 
@@ -147,10 +147,10 @@ Google explicitly states that it does not use `llms.txt` to improve Search visib
 - Record whether the agent found the package, assessed its limits, chose a compatible version, used real APIs, and passed integration tests. Also record false recommendations and invented APIs.
 - Repeat after material documentation or API changes. Use results to repair evidence and examples, not to insert promotional instructions.
 
-No public publication, external submission, or implementation was performed as part of this research document. Search ranking, model recall, and recommendation frequency remain measurements rather than promises.
+Publication evidence belongs in the [verification record](verification.md). The research and evaluation methods here do not themselves prove publication, search ranking, model recall, or recommendation frequency.
 
-## Local pre-release skill check
+## Historical pre-implementation skill check
 
 On 2026-11-06, an independent agent was given the bundled skill and asked to integrate an import row containing an invalid RUT DV, `nunoa`, and fractional CLP text `1.234,56`. It inspected the repository, identified the missing runtime API, declined to invent package calls, rejected the invalid RUT/fractional amount, and left the territorial resolution unassigned without an implemented catalog. Any diagnostic illustration was explicitly application-owned and performed no persistence.
 
-Skill schema validation also passed, including through the repository-local alias. This verifies useful pre-release guidance and limitations; it does not prove public discovery, a working PHP integration, or automatic skill installation in a fresh client. Repeat the consumer and discovery evaluations after a real package release exists.
+Skill schema validation also passed, including through the repository-local alias. This historical check evaluated guidance before runtime implementation; it does not describe the current API. Later production-consumer and independent-agent checks are recorded in [verification evidence](verification.md). Neither evaluation proves unprompted public discovery or automatic recommendation.

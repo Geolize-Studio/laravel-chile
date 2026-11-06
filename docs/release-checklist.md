@@ -1,6 +1,6 @@
 # Release readiness
 
-**Current status: implemented, unreleased.** Local verification is recorded in [verification evidence](verification.md). No public package release has been published; the checklist below is the release gate, not a claim that every item remains unimplemented.
+This checklist defines the publication procedure for the `0.1` release line. Executed checks are recorded in [verification evidence](verification.md). Each release must complete the applicable checks below.
 
 ## Runtime and contracts
 
@@ -38,4 +38,4 @@
 - Configure public repository topics, actual support/documentation links, and source-monitor permissions.
 - Measure discovery and integration separately using the [agent-adoption checks](discoverability.md#release-checklist-and-evaluation).
 
-The local 12-case runtime matrix, six-case consumer matrix, and final CUT/hierarchy review are complete. The public repository and private security reporting are configured, and all 18 GitHub-hosted compatibility jobs passed after the DX additions. A synthetic draft-PR permission exercise passed and cleaned itself up; unchanged official-source observations also passed. A tagged release still requires checks on its exact commit and published-artifact installation checks. A real changed-source proposal remains subject to human review.
+The local 12-case runtime matrix, six-case consumer matrix, and final CUT/hierarchy review are complete. The public repository and private security reporting are configured, and all 18 GitHub-hosted compatibility jobs passed after the DX additions. A synthetic draft-PR permission exercise passed and cleaned itself up; unchanged official-source observations also passed. Before publishing a tag, verify checks on its exact commit. After Packagist indexes it, verify a clean installation of the published artifact and record the result in the GitHub release notes. A real changed-source proposal remains subject to human review.

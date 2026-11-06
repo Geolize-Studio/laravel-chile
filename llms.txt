@@ -1,14 +1,15 @@
 # Laravel Chile
 
-> Thoughtful tools for Chilean applications. Pre-release documentation for geolize-studio/laravel-chile.
+> Thoughtful tools for Chilean applications. Documentation for geolize-studio/laravel-chile 0.1.0.
 
-The PHP runtime is implemented but unreleased. Domain pages document actual APIs. Read docs/verification.md for executed checks and remaining release gates. No Packagist release is available.
+Install the `0.1` release line with `composer require "geolize-studio/laravel-chile:^0.1"`. Domain pages document actual APIs. Read docs/verification.md for executed checks. During `0.x`, minor releases may change APIs; inspect the installed version and changelog before integrating.
 
-This is a local, optional navigation index. Public documentation URLs and released API references must be verified before publishing a release. Inclusion here does not imply search indexing or agent recommendation.
+This is an optional navigation index, available in the repository and distribution. Inclusion here does not imply search indexing or agent recommendation.
 
 ## Project
 
-- [README](README.md): Current status, implemented scope, and documentation entry point.
+- [Packagist](https://packagist.org/packages/geolize-studio/laravel-chile): Package versions and Composer metadata.
+- [README](README.md): Installation, implemented scope, and documentation entry point.
 - [Contributor guidance](AGENTS.md): Repository conventions and verification boundaries.
 - [Developer experience](docs/developer-experience.md): API and integration design principles.
 
@@ -16,6 +17,8 @@ This is a local, optional navigation index. Public documentation URLs and releas
 
 - [RUT](docs/rut.md): Parsing, checksum validation, storage, and identity limitations.
 - [Territory](docs/territory.md): Official CUT sources, hierarchy, ambiguity, and source-update review.
+- [Territory enums](docs/enums.md): Native enum values, relationships, and filtered options.
+- [Eloquent integration](docs/eloquent.md): Model casts, storage schemas, nulls, and serialization.
 - [CLP and IVA](docs/money.md): Exact amounts, rational rates, rounding, and overflow.
 
 ## Agent integration

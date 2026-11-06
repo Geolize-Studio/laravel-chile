@@ -1,6 +1,6 @@
 # Verification record
 
-Recorded on 2026-11-06 for the local, unreleased checkout. These results are implementation evidence, not a published support or legal-completeness certification.
+Recorded on 2026-11-06 during preparation of `0.1.0`. These results are implementation evidence, not a published support or legal-completeness certification.
 
 ## Runtime and compatibility
 
@@ -84,6 +84,12 @@ This is a machine-specific baseline, not a speed guarantee or CI timing budget. 
 
 After the baseline matrix, native territorial enums and direct value-object casts were added. Local verification passed 269 PHP tests with 16,471 assertions, 60 Python tests, maximum-level PHPStan, Pint, generator freshness, and executable examples. A production Laravel 13 consumer passed real SQLite enum/value-object persistence, serialization, null and dirty checks before and after configuration caching, without development dependencies. An independent review found no actionable defect in the 18 implementation/test files it reviewed. The table above remains baseline evidence. The extension passed all 18 Linux jobs (12 runtime combinations and six production consumers with Boost) on commit `5938e5dae025bcd28347d12491d6eddf5d8a1abe` in [run 42308721192](https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192). [Machine-readable remote results](ci-results.json) record each job and the source, permission, and automation checks. Local Boost install/update/restore checks also passed after the documentation changes.
 
-## Before public release
+## Published-artifact verification
 
-The public repository and private security reporting are configured. No immutable version tag or Packagist submission exists yet. A release still requires exact-commit checks and verification of tagged-artifact and Packagist installation. Agent discovery claims remain limited to tested resource delivery and integration tasks.
+The public repository, Packagist package, and private security reporting are configured. Release preparation verifies the exact commit before tagging. Once Packagist indexes the tag, run the public consumer check and record its result in the GitHub release notes.
+
+```sh
+python3 scripts/test_consumer.py --package-version 0.1.0 --expected-reference "$(git rev-parse v0.1.0^{commit})" --with-boost
+```
+
+This command resolves the package through public Packagist, verifies both source and distribution references against the tag, checks the installed artifact, and exercises Eloquent persistence, provider discovery, configuration caching, examples, and bundled Boost resources. Agent-discovery evidence covers resource delivery and the exercised integration tasks.

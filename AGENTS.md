@@ -2,7 +2,7 @@
 
 ## Current state
 
-This is a pre-release workspace. Read README.md and the relevant domain document before editing. The three domain modules and Composer metadata are implemented but unreleased. Inspect the actual files before referring to classes, scripts, dependencies, or exports. Source monitoring is separate from the offline PHP runtime.
+This repository contains the `0.1` release line. Read README.md and the relevant domain document before editing. The initial release is `0.1.0`; later source-checkout changes may not be in an installed version. Inspect the actual files before referring to classes, scripts, dependencies, or exports. Source monitoring is separate from the offline PHP runtime.
 
 Use the repository-local `chile-development` skill for domain implementation and integration work. Its canonical source is `resources/boost/skills/chile-development/SKILL.md`; `.agents/skills/chile-development` is a local alias. Read `docs/developer-experience.md` before designing public APIs.
 

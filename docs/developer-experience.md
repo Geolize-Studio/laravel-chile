@@ -1,6 +1,6 @@
 # Developer experience
 
-The package is implemented in an unreleased checkout. Its public surface is three immutable domains and a small Laravel adapter layer. See [verification evidence](verification.md) for what has actually run.
+This guide describes the `0.1.0` package API. Its public surface is three immutable domains and a small Laravel adapter layer. See [verification evidence](verification.md) for what has actually run.
 
 ## Package shape
 
@@ -42,7 +42,7 @@ Examples must execute against the current source. The README points to exact dom
 - **Released:** an immutable tag and verified installable artifact exist.
 - **Planned:** unavailable; do not document it as a callable API.
 
-The bundled [skill](../resources/boost/skills/chile-development/SKILL.md) and guideline follow [Laravel Boost's package resource convention](https://laravel.com/docs/13.x/boost#third-party-package-skills). They teach correct selection, strict failures, and limitations. They do not make an unpublished package automatically discoverable or authorize modifications to global agent settings.
+The bundled [skill](../resources/boost/skills/chile-development/SKILL.md) and guideline follow [Laravel Boost's package resource convention](https://laravel.com/docs/13.x/boost#third-party-package-skills). They teach correct selection, strict failures, and limitations. They do not guarantee package discovery or authorize modifications to global agent settings.
 
 ## Verification before release
 

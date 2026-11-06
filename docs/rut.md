@@ -1,6 +1,6 @@
 # RUT
 
-**Status: implemented in the pre-release workspace; not published.**
+**Package version: 0.1.0.**
 
 `Rut` parses, validates, stores, and formats Chilean identifiers. Validation checks structure and the dígito verificador (DV). It does not establish that an identifier exists, belongs to a person, or has a particular tax status. The [SII explanation of an incorrect DV](https://www.sii.cl/preguntas_frecuentes/inf_general/001_023_5071.htm) distinguishes the arithmetic check from other verification.
 

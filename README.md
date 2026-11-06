@@ -4,18 +4,25 @@
 
 # Laravel Chile
 
+[![Latest version](https://img.shields.io/packagist/v/geolize-studio/laravel-chile.svg)](https://packagist.org/packages/geolize-studio/laravel-chile)
+[![PHP checks](https://github.com/Geolize-Studio/laravel-chile/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/Geolize-Studio/laravel-chile/actions/workflows/php.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Thoughtful tools for Chilean applications.
 
 Strict RUT values, an offline official CUT catalog with native territory enums, and exact CLP/IVA arithmetic, with Laravel validation rules and Eloquent casts. Small immutable domain objects, explicit failures, and no runtime HTTP.
 
-**Unreleased:** the [public repository](https://github.com/Geolize-Studio/laravel-chile) is available; no version is published on Packagist. To evaluate the development branch in a compatible Laravel application:
+## Installation
+
+Install the `0.1` release line from [Packagist](https://packagist.org/packages/geolize-studio/laravel-chile) in a compatible Laravel application:
 
 ```sh
-composer config repositories.laravel-chile vcs https://github.com/Geolize-Studio/laravel-chile
-composer require geolize-studio/laravel-chile:dev-main
+composer require "geolize-studio/laravel-chile:^0.1"
 ```
 
-`dev-main` is a moving development branch, not a stable release. Commit your application's Composer lock file to retain the resolved revision. For package development from this checkout:
+`0.1.0` is the first public release. During `0.x`, APIs may change in a minor release; the `^0.1` constraint stays below `0.2.0`. Review the [changelog](CHANGELOG.md) before upgrading and commit your application's Composer lock file. No custom Composer repository is required.
+
+For package development from a source checkout:
 
 ```sh
 composer install
@@ -93,7 +100,7 @@ Casts preserve `null` and reject malformed writes and historical values. Reading
 
 ## Contracts and limits
 
-| Domain | Available in this checkout | Deliberate boundary |
+| Domain | Available in 0.1.0 | Deliberate boundary |
 | --- | --- | --- |
 | [RUT](docs/rut.md) | Strict grammar, DV validation, formatting, JSON, rules and casts | Checksum validity does not establish identity or issuance. |
 | [Territory](docs/territory.md) | Native enums, región → provincia → comuna, CUT lookup, explainable name resolution, per-instance aliases | Uncertain matches remain ambiguous or not found; no fuzzy assignment, geocoding, or automatic encoding repair. |
@@ -103,7 +110,7 @@ Territory ships the hash-pinned SUBDERE `CUT_2018_v04` snapshot: 16 regions, 56 
 
 ## Compatibility and verification
 
-Requires 64-bit PHP 8.3+, `intl`, `mbstring`, and Laravel/Illuminate 12.24+ or 13. The local matrix passed all 12 PHP 8.3–8.5 / Laravel 12–13 combinations with minimum eligible and current dependencies, plus all six clean production-consumer combinations. See [verification evidence](docs/verification.md) for exact versions and the distinction between local results and pending GitHub-hosted execution.
+Requires 64-bit PHP 8.3+, `intl`, `mbstring`, and Laravel/Illuminate 12.24+ or 13. The local and GitHub-hosted matrices passed all 12 PHP 8.3–8.5 / Laravel 12–13 combinations with minimum eligible and current dependencies, plus all six clean production-consumer combinations. See [verification evidence](docs/verification.md) for exact revisions, versions, and the scope of each check.
 
 ## Documentation
 

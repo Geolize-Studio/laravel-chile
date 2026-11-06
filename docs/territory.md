@@ -1,6 +1,6 @@
 # Territory and official-source maintenance
 
-**Status: implemented locally, pre-release.** The offline runtime and reviewed SUBDERE baseline contain 16 regiones, 56 provincias and 346 comunas. A reproducible importer builds this specific pinned snapshot. The separate source monitor observes upstream documents and proposes review work; neither component establishes that all subsequent legal changes have been checked. No public release is implied.
+**Package version: 0.1.0.** The offline runtime and reviewed SUBDERE baseline contain 16 regiones, 56 provincias and 346 comunas. A reproducible importer builds this specific pinned snapshot. The separate source monitor observes upstream documents and proposes review work; neither component establishes that all subsequent legal changes have been checked.
 
 The module is designed around the official región → provincia → comuna hierarchy and Código Único Territorial (CUT). Codes are identities; names are labels; aliases are search aids. They must remain separate.
 
@@ -23,8 +23,8 @@ The [final review on 2026-11-06](territory-review.md) checked the controlling le
 - Record package version, dataset version, source retrieval time, declared update date, and legal effective date separately.
 - Generate deterministic canonical data from a pinned parser and reviewed source snapshot; changes in row order or spreadsheet formatting alone must not create a semantic data release.
 - Include source URLs, SHA-256 hashes, legal instrument, parser version, schema version, record counts, and reuse terms in the accepted dataset manifest.
-- Verify data reuse conditions before distribution. The observed SUBDERE page does not explicitly state a reuse license; [INE terms](https://www.ine.gob.cl/terminos-de-uso-y-licencia-de-datos-abiertos) impose separate attribution/share-alike obligations. Do not assume that the code's eventual license covers every upstream asset.
-- Do not ship boundary geometry in v1. A hierarchy of names and codes is not a legal boundary map.
+- Verify data reuse conditions before distribution. The observed SUBDERE page does not explicitly state a reuse license; [INE terms](https://www.ine.gob.cl/terminos-de-uso-y-licencia-de-datos-abiertos) impose separate attribution/share-alike obligations. Do not assume that the code's MIT license covers every upstream asset.
+- The `0.1` release does not ship boundary geometry. A hierarchy of names and codes is not a legal boundary map.
 
 ## Runtime API
 

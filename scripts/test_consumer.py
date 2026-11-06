@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the distribution archive without dev dependencies in a disposable Laravel app."""
+"""Verify a local archive or public Packagist release in a disposable Laravel app."""
 
 import json
 import argparse
@@ -8,7 +8,6 @@ from pathlib import Path
 import shutil
 import subprocess
 import tempfile
-import zipfile
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,11 +17,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--with-boost", action="store_true", help="Also verify project-local Codex guideline and skill installation/update.")
     parser.add_argument("--laravel", choices=("12", "13"), default="13")
+    parser.add_argument("--package-version", help="Install this version from public Packagist instead of a local archive.")
+    parser.add_argument("--expected-reference", help="Require the installed public package to match this Git commit.")
     parser.add_argument("--php", type=Path, default=shutil.which("php"))
     parser.add_argument("--composer", type=Path, default=shutil.which("composer"))
     arguments = parser.parse_args()
     if arguments.php is None or arguments.composer is None:
         parser.error("PHP and Composer are required; supply their executable paths.")
+    if arguments.expected_reference and not arguments.package_version:
+        parser.error("--expected-reference requires --package-version.")
     php = arguments.php.resolve(strict=True)
     composer = arguments.composer.resolve(strict=True)
 
@@ -37,33 +40,41 @@ def main() -> None:
 
     with tempfile.TemporaryDirectory(prefix="laravel-chile-consumer-") as temporary:
         work = Path(temporary)
-        archive = work / "archive"
-        archive.mkdir()
-        run(["composer", "archive", "--format=zip", "--dir", str(archive), "--file=laravel-chile", "--no-interaction"], ROOT)
-        with zipfile.ZipFile(archive / "laravel-chile.zip") as distribution:
-            paths = distribution.namelist()
-            forbidden = ("vendor/", ".git/", ".omx/", ".source-review/", "tests/", "scripts/")
-            unexpected = [path for path in paths if path.startswith(forbidden)]
-            if unexpected:
-                raise RuntimeError("The distribution includes development or local-only files: " + repr(unexpected[:10]))
         metadata = json.loads((ROOT / "composer.json").read_text())
-        metadata.update({"version": "dev-main", "dist": {"type": "zip", "url": (archive / "laravel-chile.zip").as_uri()}})
+        if not arguments.package_version:
+            archive = work / "archive"
+            archive.mkdir()
+            run(["composer", "archive", "--format=zip", "--dir", str(archive), "--file=laravel-chile", "--no-interaction"], ROOT)
+            metadata.update({"version": "dev-main", "dist": {"type": "zip", "url": (archive / "laravel-chile.zip").as_uri()}})
         for field in ("require-dev", "autoload-dev", "scripts", "config"):
             metadata.pop(field, None)
         app = work / "app"
         for relative in ("bootstrap/cache", "config", "storage/framework/cache", "storage/framework/views", "storage/framework/sessions", "storage/logs"):
             (app / relative).mkdir(parents=True, exist_ok=True)
-        (app / "composer.json").write_text(json.dumps({
+        consumer_metadata = {
             "name": "chile-tests/consumer", "type": "project",
-            "require": {"laravel/framework": "^12.24" if arguments.laravel == "12" else "^13.0", metadata["name"]: "dev-main"},
-            "repositories": [{"type": "package", "package": metadata}],
+            "require": {"laravel/framework": "^12.24" if arguments.laravel == "12" else "^13.0", metadata["name"]: arguments.package_version or "dev-main"},
             "minimum-stability": "stable", "prefer-stable": True,
             "config": {"allow-plugins": False},
-        }, indent=2) + "\n")
+        }
+        if not arguments.package_version:
+            consumer_metadata["repositories"] = [{"type": "package", "package": metadata}]
+        (app / "composer.json").write_text(json.dumps(consumer_metadata, indent=2) + "\n")
         (app / "bootstrap/app.php").write_text("<?php\nreturn Illuminate\\Foundation\\Application::configure(basePath: dirname(__DIR__))->create();\n")
         (app / "bootstrap/providers.php").write_text("<?php\nreturn [];\n")
         (app / "artisan").write_text("<?php\nrequire __DIR__.'/vendor/autoload.php';\n$app = require __DIR__.'/bootstrap/app.php';\nexit($app->handleCommand(new Symfony\\Component\\Console\\Input\\ArgvInput));\n")
         run(["composer", "install", "--no-dev", "--no-scripts", "--no-interaction", "--prefer-dist"], app)
+        installed = app / "vendor" / metadata["name"]
+        forbidden = ("vendor", ".git", ".agents", ".github", ".omx", ".source-review", "tests", "scripts", "composer.lock")
+        unexpected = [path for path in forbidden if (installed / path).exists()]
+        if unexpected:
+            raise RuntimeError("The distribution includes development or local-only files: " + repr(unexpected))
+        if arguments.expected_reference:
+            lock = json.loads((app / "composer.lock").read_text())
+            package = next(package for package in lock["packages"] if package["name"] == metadata["name"])
+            if package.get("source", {}).get("reference") != arguments.expected_reference or package.get("dist", {}).get("reference") != arguments.expected_reference:
+                raise RuntimeError("The published package does not match the expected Git commit.")
+            print(f"Published package {package['version']} verified at {arguments.expected_reference}.")
         run(["composer", "check-platform-reqs", "--no-dev"], app)
         run(["php", "artisan", "package:discover"], app)
         (app / "smoke.php").write_text((ROOT / "scripts/consumer-smoke.php").read_text())
