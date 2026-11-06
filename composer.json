@@ -100,5 +100,12 @@
     },
     "conflict": {
         "symfony/translation": "<6.4.3 || >=7.0 <7.0.3"
+    },
+    "homepage": "https://github.com/Geolize-Studio/laravel-chile",
+    "support": {
+        "issues": "https://github.com/Geolize-Studio/laravel-chile/issues",
+        "source": "https://github.com/Geolize-Studio/laravel-chile",
+        "docs": "https://github.com/Geolize-Studio/laravel-chile/blob/main/README.md",
+        "security": "https://github.com/Geolize-Studio/laravel-chile/security/advisories/new"
     }
 }

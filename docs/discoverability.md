@@ -2,7 +2,7 @@
 
 Research checked: **2026-11-06**. Package: `geolize-studio/laravel-chile`.
 
-**Status: pre-release design.** This document specifies publication and verification work. The workspace contains a bundled skill, but there is no public repository, Packagist release, deployed documentation site, or released PHP API yet. The implemented checkout has a production-consumer smoke test; see [verification evidence](verification.md). Examples below are planned metadata and future checks, not working installation instructions.
+**Status: pre-release design.** This document specifies publication and verification work. The workspace contains a bundled skill, but the [public repository](https://github.com/Geolize-Studio/laravel-chile) is available; there is no Packagist release or tagged PHP API yet. The implemented checkout has a production-consumer smoke test; see [verification evidence](verification.md). Examples below are planned metadata and future checks, not working installation instructions.
 
 ## What success means
 

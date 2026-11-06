@@ -38,4 +38,4 @@
 - Configure public repository topics, actual support/documentation links, and source-monitor permissions.
 - Measure discovery and integration separately using the [agent-adoption checks](discoverability.md#release-checklist-and-evaluation).
 
-The local 12-case runtime matrix, six-case consumer matrix, and final CUT/hierarchy review are complete. Public release still requires GitHub-hosted execution, repository reporting/setup, a scheduled draft-PR exercise, an immutable tag, and published-artifact installation checks described in the verification record.
+The local 12-case runtime matrix, six-case consumer matrix, and final CUT/hierarchy review are complete. The public repository and private security reporting are configured, and the baseline GitHub-hosted checks passed. A tagged release still requires checks on its exact commit, a source-review PR exercise when organization policy permits it, and published-artifact installation checks.
