@@ -1,0 +1,156 @@
+{
+  "recorded_date": "2026-11-06",
+  "scope": "Native enums, direct value-object casts, consumer persistence and draft PR permissions",
+  "runs": [
+    {
+      "databaseId": 42308721192,
+      "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192",
+      "headSha": "5938e5dae025bcd28347d12491d6eddf5d8a1abe",
+      "name": "PHP checks",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "Consumer PHP 8.5 / Laravel 12",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591503"
+        },
+        {
+          "name": "Consumer PHP 8.3 / Laravel 12",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591597"
+        },
+        {
+          "name": "PHP 8.5 / Laravel 13 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591636"
+        },
+        {
+          "name": "PHP 8.4 / Laravel 12 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591651"
+        },
+        {
+          "name": "PHP 8.4 / Laravel 13 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591686"
+        },
+        {
+          "name": "Consumer PHP 8.3 / Laravel 13",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591716"
+        },
+        {
+          "name": "PHP 8.5 / Laravel 12 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591722"
+        },
+        {
+          "name": "Consumer PHP 8.4 / Laravel 12",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591756"
+        },
+        {
+          "name": "PHP 8.3 / Laravel 12 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591784"
+        },
+        {
+          "name": "PHP 8.3 / Laravel 13 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591795"
+        },
+        {
+          "name": "PHP 8.5 / Laravel 12 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591830"
+        },
+        {
+          "name": "PHP 8.4 / Laravel 12 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591831"
+        },
+        {
+          "name": "PHP 8.5 / Laravel 13 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591879"
+        },
+        {
+          "name": "PHP 8.4 / Laravel 13 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591883"
+        },
+        {
+          "name": "Consumer PHP 8.5 / Laravel 13",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591884"
+        },
+        {
+          "name": "Consumer PHP 8.4 / Laravel 13",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591899"
+        },
+        {
+          "name": "PHP 8.3 / Laravel 13 / highest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591913"
+        },
+        {
+          "name": "PHP 8.3 / Laravel 12 / lowest",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721192/job/128204591935"
+        }
+      ]
+    },
+    {
+      "databaseId": 42308721177,
+      "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721177",
+      "headSha": "5938e5dae025bcd28347d12491d6eddf5d8a1abe",
+      "name": "Source automation checks",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "validate",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308721177/job/128204590276"
+        }
+      ]
+    },
+    {
+      "databaseId": 42308727712,
+      "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308727712",
+      "headSha": "5938e5dae025bcd28347d12491d6eddf5d8a1abe",
+      "name": "Verify draft PR permissions",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "verify",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308727712/job/128204617884"
+        }
+      ]
+    },
+    {
+      "databaseId": 42308731016,
+      "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308731016",
+      "headSha": "5938e5dae025bcd28347d12491d6eddf5d8a1abe",
+      "name": "Review official territorial sources",
+      "status": "completed",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "name": "inspect",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308731016/job/128204629722"
+        },
+        {
+          "name": "propose",
+          "conclusion": "success",
+          "url": "https://github.com/Geolize-Studio/laravel-chile/actions/runs/42308731016/job/128204728659"
+        }
+      ]
+    }
+  ]
+}
