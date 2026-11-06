@@ -1,0 +1,11 @@
+[
+  {"input": "Ñuñoa", "code": "13120", "method": "exact", "transformations": []},
+  {"input": "Nunoa", "code": "13120", "method": "normalized", "transformations": ["lowercase"]},
+  {"input": "Ñuñoa", "code": "13120", "method": "normalized", "transformations": ["unicode_nfc", "lowercase", "remove_diacritics"]},
+  {"input": "  COMUNA DE ÑUÑOA  ", "code": "13120", "method": "normalized", "transformations": ["trim_whitespace", "lowercase", "remove_diacritics", "remove_comuna_prefix"]},
+  {"input": "  Viña\t del Mar ", "code": "05109", "method": "normalized", "transformations": ["trim_whitespace", "collapse_whitespace", "lowercase", "remove_diacritics"]},
+  {"input": "Ã‘uÃ±oa", "code": null, "method": null, "transformations": ["lowercase", "remove_diacritics"]},
+  {"input": "Nunoa�", "code": null, "method": null, "transformations": ["lowercase"]},
+  {"input": "La Calera", "code": null, "method": null, "transformations": ["lowercase"]},
+  {"input": "Santiag", "code": null, "method": null, "transformations": ["lowercase"]}
+]

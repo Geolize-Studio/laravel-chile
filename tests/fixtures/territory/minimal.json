@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "dataset_version": "test-only",
+  "regions": [
+    {"code": "01", "name": "Tarapacá"},
+    {"code": "13", "name": "Metropolitana de Santiago"}
+  ],
+  "provinces": [
+    {"code": "011", "name": "Iquique", "region_code": "01"},
+    {"code": "131", "name": "Santiago", "region_code": "13"}
+  ],
+  "comunas": [
+    {"code": "01101", "name": "Iquique", "province_code": "011", "region_code": "01"},
+    {"code": "01107", "name": "Alto Hospicio", "province_code": "011", "region_code": "01"},
+    {"code": "13101", "name": "Santiago", "province_code": "131", "region_code": "13"}
+  ]
+}

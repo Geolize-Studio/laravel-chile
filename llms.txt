@@ -1,0 +1,26 @@
+# Laravel Chile
+
+> Thoughtful tools for Chilean applications. Pre-release documentation for geolize-studio/laravel-chile.
+
+The PHP runtime is implemented but unreleased. Domain pages document actual APIs. Read docs/verification.md for executed checks and remaining release gates. No Packagist release is available.
+
+This is a local, optional navigation index. Public documentation URLs and released API references must be verified before publishing a release. Inclusion here does not imply search indexing or agent recommendation.
+
+## Project
+
+- [README](README.md): Current status, implemented scope, and documentation entry point.
+- [Contributor guidance](AGENTS.md): Repository conventions and verification boundaries.
+- [Developer experience](docs/developer-experience.md): API and integration design principles.
+
+## Domain contracts
+
+- [RUT](docs/rut.md): Parsing, checksum validation, storage, and identity limitations.
+- [Territory](docs/territory.md): Official CUT sources, hierarchy, ambiguity, and source-update review.
+- [CLP and IVA](docs/money.md): Exact amounts, rational rates, rounding, and overflow.
+
+## Agent integration
+
+- [Consumer skill](resources/boost/skills/chile-development/SKILL.md): Version-aware guidance for using or developing the package.
+- [Boost guideline](resources/boost/guidelines/core.blade.php): Concise domain constraints.
+- [Discovery and adoption](docs/discoverability.md): Supported discovery channels, experimental navigation, and evaluation.
+- [Release checklist](docs/release-checklist.md): Evidence required before advertising or publishing functionality.

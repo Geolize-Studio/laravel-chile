@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "allowed_hosts": ["www.subdere.gov.cl", "subdere.gov.cl"],
+  "timeout_seconds": 30,
+  "max_bytes": 10000000,
+  "sources": [
+    {
+      "id": "subdere-cut-page",
+      "label": "SUBDERE official CUT document links",
+      "url": "https://www.subdere.gov.cl/documentacion/c%C3%B3digos-%C3%BAnicos-territoriales-actualizados-al-06-de-septiembre-2018",
+      "kind": "document-links"
+    },
+    {
+      "id": "subdere-cut-workbook",
+      "label": "SUBDERE CUT 2018 v04 workbook",
+      "url": "https://www.subdere.gov.cl/sites/default/files/documentos/CUT_2018_v04.xls",
+      "kind": "xls"
+    },
+    {
+      "id": "subdere-cut-decree",
+      "label": "SUBDERE Decreto Exento 1115, September 2018",
+      "url": "https://www.subdere.gov.cl/sites/default/files/documentos/DTO-1115-SEPT_2018.pdf",
+      "kind": "pdf"
+    }
+  ]
+}

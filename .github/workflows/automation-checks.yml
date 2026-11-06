@@ -1,0 +1,25 @@
+name: Source automation checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run offline automation tests
+        run: python3 -m unittest discover -s tests/automation -v
+      - name: Validate the committed observation manifest
+        run: python3 scripts/territory_source_monitor.py --validate resources/territory/observed-sources.json
+      - name: Compile automation scripts
+        run: python3 -m py_compile scripts/territory_source_monitor.py scripts/propose_source_review.py scripts/build_territory_catalog.py scripts/test_consumer.py scripts/test_matrix.py

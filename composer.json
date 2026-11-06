@@ -1,0 +1,104 @@
+{
+    "name": "geolize-studio/laravel-chile",
+    "description": "Thoughtful tools for Chilean applications: RUT, official CUT territory data, and exact CLP/IVA arithmetic for Laravel.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "php",
+        "laravel",
+        "chile",
+        "rut",
+        "comunas",
+        "cut",
+        "clp",
+        "iva"
+    ],
+    "require": {
+        "php": "^8.3",
+        "php-64bit": "^8.3",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "illuminate/contracts": "^12.24 || ^13.0",
+        "illuminate/database": "^12.24 || ^13.0",
+        "illuminate/support": "^12.24 || ^13.0",
+        "illuminate/validation": "^12.24 || ^13.0"
+    },
+    "require-dev": {
+        "larastan/larastan": "^3.0",
+        "laravel/pint": "^1.0",
+        "orchestra/testbench": "^10.5 || ^11.0",
+        "pestphp/pest": "^4.7.8",
+        "phpstan/phpstan": "^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GeolizeStudio\\Chile\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "GeolizeStudio\\Chile\\ChileServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "test": "pest",
+        "test:unit": "pest tests/Unit",
+        "test:integration": "pest tests/Integration",
+        "test:automation": "python3 -m unittest discover -s tests/automation -v",
+        "test:mutations": "pest --mutate",
+        "analyse": "phpstan analyse --memory-limit=1G",
+        "lint": "pint --test",
+        "format": "pint",
+        "check": [
+            "@test",
+            "@analyse",
+            "@lint"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "archive": {
+        "exclude": [
+            "/.agents",
+            "/.github",
+            "/.git",
+            "/.omx",
+            "/.source-review",
+            "/vendor",
+            "/tests",
+            "/scripts",
+            "/benchmarks",
+            "/composer.lock",
+            "/phpunit.xml.dist",
+            "/phpstan.neon.dist",
+            "/pint.json",
+            "/.pest",
+            "/.phpunit.cache",
+            "/.phpstan.cache",
+            "/coverage",
+            "/.DS_Store",
+            "/.editorconfig",
+            "/.gitattributes",
+            "/.gitignore",
+            "/**/__pycache__",
+            "/**/*.pyc"
+        ]
+    },
+    "conflict": {
+        "symfony/translation": "<6.4.3 || >=7.0 <7.0.3"
+    }
+}

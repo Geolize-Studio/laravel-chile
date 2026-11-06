@@ -1,0 +1,6 @@
+Edit this existing panoramic postage-stamp README header. Preserve the exact snowy central Chilean Andes engraving, mountain silhouette, paper, perforated edges, navy/ivory palette, fine linework, border, image dimensions and overall composition.
+Make ONLY these typography/layout edits:
+1. Completely remove the words "GEOLIZE STUDIO" from the top band. Re-center "LARAVEL CHILE" across the FULL width of the top band, with balanced blank space on both sides. Subtle short red rules can flank the centered title symmetrically. No vendor name or extra logo anywhere.
+2. Completely remove the bottom text "RUT · TERRITORY · CLP / IVA". Replace it with exactly: "Thoughtful tools for Chilean applications."
+Set the new subtitle in refined, highly legible mixed-case serif lettering, centered on the bottom navy band. Use the exact capitalization and period. Keep it sufficiently large to read in a GitHub README. Do not enumerate package modules or features anywhere.
+No other changes. This is the final header artwork, all copy in English.

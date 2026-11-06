@@ -1,0 +1,11 @@
+.omx/
+__pycache__/
+*.pyc
+.source-review/
+.DS_Store
+vendor/
+.phpunit.cache/
+.phpstan.cache/
+.pest/
+coverage/
+source-review/

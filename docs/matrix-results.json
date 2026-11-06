@@ -1,0 +1,747 @@
+{
+  "schema_version": 1,
+  "verified_on": "2026-11-06",
+  "environment": "macOS 15.6 arm64",
+  "composer": "2.11.1",
+  "source_snapshot_sha256": "4c4de12546b21e2ad839186647643756f9d4900e0237c5acb8ba081ff68fa643",
+  "source_unchanged_during_run": true,
+  "runtimes": [
+    {
+      "version": "8.3.36",
+      "bits": 64,
+      "icu": "77.1",
+      "binary_sha256": "ce23fc39a970cefd6ab8f72e0f45a4b9b51f54fcb155648e391d789d405bf62d"
+    },
+    {
+      "version": "8.4.14",
+      "bits": 64,
+      "icu": "77.1",
+      "binary_sha256": "4d3ecd6f46c7a9e66d13fae654b6b4511a90560626f4b05955404863477274f3"
+    },
+    {
+      "version": "8.5.12",
+      "bits": 64,
+      "icu": "77.1",
+      "binary_sha256": "3d6c73d4ebf9abc9aa9b9762e15258d7b67e964e28fcafe1d1c95481c8a3137e"
+    }
+  ],
+  "runtime_source_archives": [
+    {
+      "version": "8.3.36",
+      "url": "https://www.php.net/distributions/php-8.3.36.tar.gz",
+      "sha256": "c93f3441f87f6ab156bef4432db215d7e61ca2c0183bb3a2aa28d9886ab59f53"
+    },
+    {
+      "version": "8.5.12",
+      "url": "https://www.php.net/distributions/php-8.5.12.tar.gz",
+      "sha256": "81a0f450349e84b08eb43faa85f8a4c835684f3cc1c50471775d1317a046c525"
+    }
+  ],
+  "dependency_policy": "Composer default security policy; lowest means the lowest eligible resolution, not vulnerable versions blocked by Composer.",
+  "cases": [
+    {
+      "case": "php-8.3.36-laravel-12-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.71.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v10.12.0",
+        "orchestra/testbench-core": "v10.16.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "0b8b21562b3fc67728781d13d43ce2b1404defbb8f0c4ff5a72823d4046756ca",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.3.36-laravel-12-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.69.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v10.5.0",
+        "orchestra/testbench-core": "v10.8.1",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.3",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "2447628b5ae25de6986d4a73848769c5385804a54058c7c9361c02ee88b09065",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.3.36-laravel-13-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.40.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v11.3.0",
+        "orchestra/testbench-core": "v11.6.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "c6bb19b334d5972f4dbc567c6d8ac1f53d797ae5e6a7c3968e0741f2fa7f2fb6",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.3.36-laravel-13-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.30.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v11.0.0",
+        "orchestra/testbench-core": "v11.0.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.32",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "e77a11ae232585bfa9c8c0f9c5a065b6e0e7306a1c6a6034b9ca8b7e80382e66",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.4.14-laravel-12-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.71.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v10.12.0",
+        "orchestra/testbench-core": "v10.16.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "ec3be932bce1f2a313d1467d63963d5c955f0d723544dff0691ca999968491ea",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.4.14-laravel-12-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.69.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v10.5.0",
+        "orchestra/testbench-core": "v10.8.1",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.3",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "c016fd02adc2da4583a161ef7d55c6815ba1dba0b2f4dd25d61ff2b561824a7a",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.4.14-laravel-13-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.40.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v11.3.0",
+        "orchestra/testbench-core": "v11.6.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "60ec35e580d0370a976730bd855d90beae55265634e282198e45e0c8a8146155",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.4.14-laravel-13-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.30.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v11.0.0",
+        "orchestra/testbench-core": "v11.0.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.32",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "aa8aaac0072655873d41f2f9b1037f85d898276ea839deba332f66cef0d8d6ba",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.5.12-laravel-12-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.71.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v10.12.0",
+        "orchestra/testbench-core": "v10.16.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "ec3be932bce1f2a313d1467d63963d5c955f0d723544dff0691ca999968491ea",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.5.12-laravel-12-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v12.69.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v10.5.0",
+        "orchestra/testbench-core": "v10.8.1",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.3",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "d19ae08fd39282835893f243f4c36bb5f75b3afcae1efc358e626e20be6fc98d",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.5.12-laravel-13-highest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.40.0",
+        "laravel/pint": "v1.32.1",
+        "orchestra/testbench": "v11.3.0",
+        "orchestra/testbench-core": "v11.6.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.3.5",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "60ec35e580d0370a976730bd855d90beae55265634e282198e45e0c8a8146155",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "analysis",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "format",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "audit",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    },
+    {
+      "case": "php-8.5.12-laravel-13-lowest",
+      "passed": true,
+      "resolved_versions": {
+        "laravel/framework": "v13.30.0",
+        "laravel/pint": "v1.0.0",
+        "orchestra/testbench": "v11.0.0",
+        "orchestra/testbench-core": "v11.0.0",
+        "pestphp/pest": "v4.7.8",
+        "phpstan/phpstan": "2.1.32",
+        "phpunit/phpunit": "12.5.33"
+      },
+      "tests": 203,
+      "assertions": 14098,
+      "lock_sha256": "e13a32f24ba1517cd80ff305f8e120264b5cb620a4374ec3b932097c056095f2",
+      "checks": [
+        {
+          "name": "validate",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "resolve",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "platform",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "tests",
+          "exit_code": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "examples",
+          "exit_code": 0,
+          "diagnostics": []
+        }
+      ]
+    }
+  ],
+  "consumer_cases": [
+    {
+      "case": "consumer-8.3-laravel-12",
+      "php": "8.3.36",
+      "laravel": "12.71.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    },
+    {
+      "case": "consumer-8.3-laravel-13",
+      "php": "8.3.36",
+      "laravel": "13.40.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    },
+    {
+      "case": "consumer-8.4-laravel-12",
+      "php": "8.4.14",
+      "laravel": "12.71.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    },
+    {
+      "case": "consumer-8.4-laravel-13",
+      "php": "8.4.14",
+      "laravel": "13.40.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    },
+    {
+      "case": "consumer-8.5-laravel-12",
+      "php": "8.5.12",
+      "laravel": "12.71.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    },
+    {
+      "case": "consumer-8.5-laravel-13",
+      "php": "8.5.12",
+      "laravel": "13.40.0",
+      "boost": "2.10.4",
+      "exit_code": 0,
+      "checks": [
+        "production archive",
+        "platform requirements",
+        "provider discovery",
+        "rules",
+        "quickstart",
+        "config cache/clear",
+        "Boost install/update/restore"
+      ]
+    }
+  ]
+}

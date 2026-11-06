@@ -1,0 +1,72 @@
+name: Review official territorial sources
+
+on:
+  schedule:
+    - cron: '23 10 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: territory-source-observations
+  cancel-in-progress: false
+
+jobs:
+  inspect:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Test source policy
+        run: python3 -m unittest discover -s tests/automation -v
+      - name: Observe approved official sources
+        run: python3 scripts/territory_source_monitor.py --output source-review/observed-sources.json
+      - name: Preserve candidate observations
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: territorial-source-observations
+          path: source-review/observed-sources.json
+          if-no-files-found: error
+          retention-days: 7
+
+  propose:
+    needs: inspect
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: territorial-source-observations
+          path: source-review
+      - name: Validate ownership and prepare observation changes
+        id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/propose_source_review.py source-review/observed-sources.json >> "$GITHUB_OUTPUT"
+      - name: Create or update the draft source-review PR
+        if: steps.prepare.outputs.ready == 'true'
+        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        with:
+          token: ${{ github.token }}
+          base: ${{ steps.prepare.outputs.base }}
+          branch: automation/territory-source-observations
+          add-paths: resources/territory/observed-sources.json
+          delete-branch: false
+          draft: always-true
+          commit-message: 'chore: review official territorial source changes'
+          title: 'chore: review official territorial source changes'
+          body-path: source-review/body.md

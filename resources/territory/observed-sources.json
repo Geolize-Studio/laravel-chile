@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "purpose": "source-observation-only",
+  "sources": [
+    {
+      "id": "subdere-cut-page",
+      "kind": "document-links",
+      "url": "https://www.subdere.gov.cl/documentacion/c%C3%B3digos-%C3%BAnicos-territoriales-actualizados-al-06-de-septiembre-2018",
+      "final_url": "https://www.subdere.gov.cl/documentacion/c%C3%B3digos-%C3%BAnicos-territoriales-actualizados-al-06-de-septiembre-2018",
+      "document_links": [
+        "https://www.subdere.gov.cl/sites/default/files/documentos/CUT_2018_v04.xls",
+        "https://www.subdere.gov.cl/sites/default/files/documentos/DTO-1115-SEPT_2018.pdf"
+      ],
+      "sha256": "a81a58535b02bfafb909e707492339d2ecf6691ff4021943522da7fc7bb94015"
+    },
+    {
+      "id": "subdere-cut-workbook",
+      "kind": "xls",
+      "url": "https://www.subdere.gov.cl/sites/default/files/documentos/CUT_2018_v04.xls",
+      "final_url": "https://www.subdere.gov.cl/sites/default/files/documentos/CUT_2018_v04.xls",
+      "size_bytes": 69120,
+      "sha256": "d1b7fc3abb93cea3d115861579297d8bbdc9a7c762c958e646cd01b804df1ea0"
+    },
+    {
+      "id": "subdere-cut-decree",
+      "kind": "pdf",
+      "url": "https://www.subdere.gov.cl/sites/default/files/documentos/DTO-1115-SEPT_2018.pdf",
+      "final_url": "https://www.subdere.gov.cl/sites/default/files/documentos/DTO-1115-SEPT_2018.pdf",
+      "size_bytes": 1715731,
+      "sha256": "88002cd5a52fbdcda90899611631e315eb3759da78b0bbba148cda605a543377"
+    }
+  ]
+}
