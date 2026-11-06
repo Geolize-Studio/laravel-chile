@@ -21,5 +21,7 @@ jobs:
         run: python3 -m unittest discover -s tests/automation -v
       - name: Validate the committed observation manifest
         run: python3 scripts/territory_source_monitor.py --validate resources/territory/observed-sources.json
+      - name: Verify generated territory enums
+        run: python3 scripts/generate_territory_enums.py --check
       - name: Compile automation scripts
-        run: python3 -m py_compile scripts/territory_source_monitor.py scripts/propose_source_review.py scripts/build_territory_catalog.py scripts/test_consumer.py scripts/test_matrix.py
+        run: python3 -m py_compile scripts/territory_source_monitor.py scripts/propose_source_review.py scripts/build_territory_catalog.py scripts/generate_territory_enums.py scripts/test_consumer.py scripts/test_matrix.py
