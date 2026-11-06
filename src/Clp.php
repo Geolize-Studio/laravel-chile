@@ -6,18 +6,29 @@ namespace GeolizeStudio\Chile;
 
 use GeolizeStudio\Chile\Exceptions\AmountOverflow;
 use GeolizeStudio\Chile\Exceptions\InvalidAmount;
+use GeolizeStudio\Chile\Laravel\Casts\ClpCast;
 use GeolizeStudio\Chile\Support\IntegerMath;
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use JsonSerializable;
 use LogicException;
 use Stringable;
 
-final readonly class Clp implements JsonSerializable, Stringable
+final readonly class Clp implements Castable, JsonSerializable, Stringable
 {
     private function __construct(private int $amount)
     {
         if (PHP_INT_SIZE !== 8) {
             throw new LogicException('CLP requires a 64-bit PHP runtime.');
         }
+    }
+
+    /**
+     * @param  array<string>  $arguments
+     * @return class-string<ClpCast>
+     */
+    public static function castUsing(array $arguments): string
+    {
+        return ClpCast::class;
     }
 
     /** Accept an integer without PHP weak-call-site scalar coercion. */

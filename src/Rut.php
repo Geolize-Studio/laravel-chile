@@ -5,12 +5,23 @@ declare(strict_types=1);
 namespace GeolizeStudio\Chile;
 
 use GeolizeStudio\Chile\Exceptions\InvalidRut;
+use GeolizeStudio\Chile\Laravel\Casts\RutCast;
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use JsonSerializable;
 use Stringable;
 
-final readonly class Rut implements JsonSerializable, Stringable
+final readonly class Rut implements Castable, JsonSerializable, Stringable
 {
     private function __construct(private string $body, private string $dv) {}
+
+    /**
+     * @param  array<string>  $arguments
+     * @return class-string<RutCast>
+     */
+    public static function castUsing(array $arguments): string
+    {
+        return RutCast::class;
+    }
 
     public static function parse(mixed $value): self
     {

@@ -5,11 +5,23 @@ declare(strict_types=1);
 namespace GeolizeStudio\Chile;
 
 use GeolizeStudio\Chile\Exceptions\InvalidTaxRate;
+use GeolizeStudio\Chile\Laravel\Casts\IvaCast;
 use GeolizeStudio\Chile\Support\IntegerMath;
+use Illuminate\Contracts\Database\Eloquent\Castable;
+use JsonSerializable;
 
-final readonly class Iva
+final readonly class Iva implements Castable, JsonSerializable
 {
     private function __construct(public int $numerator, public int $denominator) {}
+
+    /**
+     * @param  array<string>  $arguments
+     * @return class-string<IvaCast>
+     */
+    public static function castUsing(array $arguments): string
+    {
+        return IvaCast::class;
+    }
 
     public static function standard(): self
     {
@@ -33,6 +45,29 @@ final readonly class Iva
         }
 
         return new self(intdiv($numerator, $left), intdiv($denominator, $left));
+    }
+
+    public static function fromArray(mixed $value): self
+    {
+        if (! is_array($value) || count($value) !== 2
+            || ! array_key_exists('numerator', $value)
+            || ! array_key_exists('denominator', $value)) {
+            throw new InvalidTaxRate('An IVA rate must contain exactly numerator and denominator.');
+        }
+
+        return self::fromRatio($value['numerator'], $value['denominator']);
+    }
+
+    /** @return array{numerator: int, denominator: int} */
+    public function toArray(): array
+    {
+        return ['numerator' => $this->numerator, 'denominator' => $this->denominator];
+    }
+
+    /** @return array{numerator: int, denominator: int} */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 
     public function fromNet(Clp $net, RoundingMode $rounding): TaxCalculation

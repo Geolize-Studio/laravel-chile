@@ -78,6 +78,16 @@ Iva::fromRatio(19.0, 100);  // throws InvalidTaxRate
 Iva::fromRatio(19, 0);     // throws InvalidTaxRate
 ```
 
+### Exact rate serialization
+
+`Iva::fromArray(mixed $value): Iva` accepts exactly two keys, `numerator` and `denominator`, with integer values. It applies the same bounds and reduction as `fromRatio`. Missing or additional keys, numeric strings, floats, percentages, objects, and JSON strings throw `InvalidTaxRate`. Decode external JSON explicitly before using this domain constructor.
+
+```php
+$rate = Iva::fromArray(['numerator' => 1900, 'denominator' => 10000]);
+$rate->toArray();   // ['numerator' => 19, 'denominator' => 100]
+json_encode($rate); // '{"numerator":19,"denominator":100}'
+```
+
 ### Rounding
 
 There is no implicit rounding policy. Pass a `RoundingMode` to every IVA calculation; strings are not accepted in place of the enum. The policy applies to tax for `fromNet`, and to net for `fromGross`.
@@ -120,6 +130,45 @@ protected function casts(): array
 
 `ClpCast` accepts `Clp`, integer, or parser-valid string assignments and stores integer pesos. Reads return `Clp`; `null` remains `null` in both directions. Model arrays and JSON contain integer pesos or `null`. Reading a valid legacy display string does not rewrite its raw attribute; assigning a value explicitly canonicalizes it. Invalid historical values throw instead of becoming zero, and invalid assignments throw before replacing the attribute.
 
+### Direct value object casts
+
+The value objects implement Laravel's `Castable` contract, so their class names work directly in a model's `casts()` method. The explicit `ClpCast`, `RutCast`, and `IvaCast` adapters remain available with identical behavior.
+
+```php
+use GeolizeStudio\Chile\Clp;
+use GeolizeStudio\Chile\Iva;
+use GeolizeStudio\Chile\RoundingMode;
+use GeolizeStudio\Chile\Rut;
+
+protected function casts(): array
+{
+    return [
+        'amount' => Clp::class,
+        'rut' => Rut::class,
+        'iva_rate' => Iva::class,
+        'rounding' => RoundingMode::class,
+    ];
+}
+```
+
+Use a signed `BIGINT` for `amount`, a string column for `rut`, a `JSON` or `TEXT` column for `iva_rate`, and a string column for `rounding`. Use nullable columns only when absence is meaningful to your application. The package does not create database columns.
+
+```php
+$invoice->amount = Clp::fromPesos(10000);
+$invoice->iva_rate = Iva::standard();
+$invoice->rounding = RoundingMode::HalfAwayFromZero;
+$invoice->save();
+
+$calculation = $invoice->iva_rate->fromNet($invoice->amount, $invoice->rounding);
+$calculation->gross->pesos(); // 11900
+```
+
+`IvaCast` accepts an `Iva`, an exact ratio array, or `null`. Writes use canonical JSON such as `{"numerator":19,"denominator":100}`. Reads return an immutable `Iva`; model arrays and JSON expose the same ratio object. Null stays null and never means zero or an exempt transaction. The rounding policy remains a separate native enum cast; changing a rate does not silently change that policy. `TaxCalculation` remains a derived result rather than a second persisted source of monetary totals.
+
+A rate's mathematical value controls dirty detection: assigning `1900/10000` over `19/100` is unchanged, including when a database reorders JSON keys. Reading or saving an unchanged rate never rewrites historical JSON formatting or fraction representation. Changed rates are stored in canonical reduced form. Object caching is disabled for these immutable casts.
+
+Malformed historical rate JSON, wrong shapes, additional fields, floats, and invalid ratio components throw `InvalidTaxRate` on reading or serialization. Invalid assignments throw before changing the attribute. To repair an invalid historical value, assign an explicitly reviewed valid rate; it is marked dirty and can be saved. There is no automatic data repair. Use Eloquent model assignment for these guarantees: query-builder inserts and bulk updates bypass model casts.
+
 ## Errors and limits
 
 All exception classes are under `GeolizeStudio\Chile\Exceptions`:
@@ -128,7 +177,7 @@ All exception classes are under `GeolizeStudio\Chile\Exceptions`:
 | --- | --- |
 | `InvalidAmount` (`InvalidArgumentException`) | Unsupported type or malformed whole-peso input |
 | `AmountOverflow` (`OverflowException`) | Parsed value or arithmetic exceeds signed 64-bit range |
-| `InvalidTaxRate` (`InvalidArgumentException`) | Non-integer or out-of-bounds rate component |
+| `InvalidTaxRate` (`InvalidArgumentException`) | Malformed rate representation, non-integer or out-of-bounds rate component |
 
 Arithmetic checks integer limits before addition, subtraction, multiplication, or rounding adjustment. Quotient/remainder decomposition allows gross calculations at both integer extremes without forming an overflowing multiplication. An unrepresentable tax or gross amount throws, leaving immutable inputs unchanged. A 64-bit PHP runtime is required by Composer and checked when constructing an amount.
 
@@ -137,7 +186,7 @@ Arithmetic checks integer limits before addition, subtraction, multiplication, o
 Run the module's checked-in tests with:
 
 ```sh
-vendor/bin/pest tests/Unit/MoneyTest.php tests/Integration/MoneyIntegrationTest.php
+vendor/bin/pest tests/Unit/MoneyTest.php tests/Unit/IvaSerializationTest.php tests/Integration/MoneyIntegrationTest.php tests/Integration/ValueObjectCastsTest.php
 ```
 
 Tests cover grammar, weakly typed callers, exact formatting and JSON, signed integer boundaries, invalid rates, all rounding policies, accounting invariants, and Laravel validation/casts. Boundary IVA fixtures were independently calculated with exact rational arithmetic. Full compatibility-matrix and mutation-test evidence belongs in the release verification record; this page does not imply publication or completed release gates.
