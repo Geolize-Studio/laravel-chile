@@ -173,4 +173,8 @@ Monitoring known sources does not discover every future legal act or moved publi
 
 ## Repository automation status
 
-The public repository is configured with read-only default workflow permissions. The organization currently prohibits GitHub Actions from creating or approving pull requests; attempting to enable that permission for this repository returns HTTP 409. Source observation and artifact generation can run, but automatic draft-PR creation remains blocked by organization policy. Do not bypass that policy with a personal token. An organization owner must approve a policy change or an explicitly authorized integration before enabling the PR step.
+The public repository retains read-only default workflow permissions. The organization permits repository opt-in for Actions-created PRs, and this repository enables it. Only the proposal job requests `contents: write` and `pull-requests: write`; it creates drafts without approval, automatic merge, or release. GitHub exposes creation and approval through one repository setting, so the workflow itself deliberately performs no approval operation.
+
+The manual `Verify draft PR permissions` workflow uses the same pinned PR action and ephemeral `GITHUB_TOKEN` with a synthetic single-file fixture. It verifies the bot identity, draft state, base, and changed path, then closes the PR and removes its run-specific branch. It never modifies territorial data. This tests permission and lifecycle plumbing independently of whether official sources changed; a successful unchanged-source observation is not evidence that PR creation ran.
+
+Organization policy changes can propagate to repositories that inherit them. Preserve and verify other repositories' existing settings when enabling an exception. New repositories inherit the organization's creation/approval setting and should explicitly disable it unless required. Do not replace this arrangement with a broad personal token.

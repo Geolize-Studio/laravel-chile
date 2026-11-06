@@ -5,12 +5,12 @@ description: Implement or integrate geolize-studio/laravel-chile domain features
 
 # Chile Development
 
-`geolize-studio/laravel-chile` has implemented RUT, territory, and money modules in an unreleased checkout. It is not published on Packagist. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
+`geolize-studio/laravel-chile` provides RUT, territory, and money modules in the public [Laravel Chile repository](https://github.com/Geolize-Studio/laravel-chile). It is unreleased and not published on Packagist. For development evaluation, add that URL as a Composer VCS repository and require `geolize-studio/laravel-chile:dev-main`; the README contains the exact commands. Do not present the moving development branch as a stable release. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
 
 ## Implemented API
 
 ```php
-use GeolizeStudio\Chile\{Clp, Iva, RoundingMode, Rut, Territory};
+use GeolizeStudio\Chile\{Clp, Comuna, Iva, Region, RoundingMode, Rut, Territory};
 use GeolizeStudio\Chile\Territory\ResolutionStatus;
 
 $rut = Rut::parse('12.345.678-5'); // Throws InvalidRut on invalid input.
@@ -29,11 +29,17 @@ $calculation = Iva::standard()->fromNet(
 $calculation->tax->pesos(); // 1900
 $calculation->gross->pesos(); // 11900
 Clp::tryParse('1.234,56'); // null
+
+Comuna::Nunoa->value; // '13120'
+Comuna::Nunoa->label(); // 'Ñuñoa'
+Comuna::Nunoa->region(); // Region::Metropolitana
+Comuna::options(region: Region::Metropolitana); // CUT-to-label pairs.
+Iva::standard()->toArray(); // ['numerator' => 19, 'denominator' => 100]
 ```
 
-Public Laravel adapters are `GeolizeStudio\Chile\Laravel\Rules\RutRule`, `ClpRule`, and `GeolizeStudio\Chile\Laravel\Casts\RutCast`, `ClpCast`. Instantiate rules; put cast class names in a model's `casts()` map. Rules follow Laravel's required/nullable behavior. Casts preserve null, reject malformed historical values, and avoid rewriting a value just because it was read. No facade, config publishing, migration, or translation resource is exported.
+Use `Rut::class`, `Clp::class`, and `Iva::class` directly in a model's `casts()` map. Explicit adapters `GeolizeStudio\Chile\Laravel\Casts\RutCast`, `ClpCast`, and `IvaCast` are also exported. Root-namespace `Region`, `Province`, and `Comuna`, plus `RoundingMode`, use Laravel's native enum casting. Instantiate `GeolizeStudio\Chile\Laravel\Rules\RutRule` and `ClpRule` for requests; use `Rule::enum(Comuna::class)` with a `string` rule for CUT input. Laravel's required/nullable rules control presence. Casts preserve null, reject malformed historical values, and avoid rewriting a value just because it was read. No facade, config publishing, migration, or translation resource is exported.
 
-Resolve the package root with `Composer\InstalledVersions::getInstallPath('geolize-studio/laravel-chile')`, or use the checkout root during package development. Documentation and example paths here are relative to that package root, not the consumer app or installed skill directory. Read `docs/rut.md`, `docs/money.md`, and `docs/territory.md` for full grammars and failure contracts; `examples/quickstart.php` is executable. Requirements are 64-bit PHP 8.3+, intl, mbstring, and Illuminate 12.24+ or 13. Consult `docs/verification.md` for tested combinations rather than treating CI configuration as execution evidence.
+Resolve the package root with `Composer\InstalledVersions::getInstallPath('geolize-studio/laravel-chile')`, or use the checkout root during package development. Documentation and example paths here are relative to that package root, not the consumer app or installed skill directory. Read `docs/rut.md`, `docs/money.md`, and `docs/territory.md` for full grammars and failure contracts, `docs/enums.md` for native territory enums, and `docs/eloquent.md` for persistence; `examples/quickstart.php` is executable. Requirements are 64-bit PHP 8.3+, intl, mbstring, and Illuminate 12.24+ or 13. Consult `docs/verification.md` for tested combinations rather than treating CI configuration as execution evidence.
 
 ## Scope
 
@@ -58,7 +64,10 @@ Treat parsing, mathematical validation, identity, and presentation as separate c
 
 Territory resolution must be explainable and conservative.
 
-- Keep CUT codes as strings so leading zeroes survive.
+- Keep CUT codes as strings so leading zeroes survive. Persist enum values in string columns, never case names or labels.
+- Root `Region`, `Province`, and `Comuna` enums represent the accepted bundled snapshot. `Territory\Region`, `Territory\Province`, and `Territory\Comuna` are separate immutable records for catalog instances, including custom snapshots. Use an enum's `value` with existing `Territory` lookups; do not replace custom snapshot records with closed enums.
+- On enum cases, use `$region->provinces()` / `comunas()`, `$province->region()` / `comunas()`, and `$comuna->region()` / `province()`. Select options are `Region::options()`, `Province::options(?Region $region = null)`, and `Comuna::options(?Region $region = null, ?Province $province = null)`. Filters intersect. Options use `array<int|string, string>` because PHP coerces numeric string keys without leading zeros; enum values remain strings.
+- Native enum validation and casts check membership, not consistency between separate parent columns. Derive or explicitly validate the hierarchy. Generated cases and metadata come from the accepted catalog plus the stable case map; verify with `python3 scripts/generate_territory_enums.py --check` in a source checkout.
 - Retain the original input and report every applied normalization or encoding repair.
 - Exact, normalized, and explicitly configured alias matches may resolve only when unambiguous. Return the package's explicit ambiguous or not-found result otherwise.
 - No encoding-repair or fuzzy-suggestion API is implemented. Mojibake is not automatically repaired; invalid UTF-8 is rejected. Never silently turn an uncertain name into a comuna.
@@ -70,6 +79,7 @@ Use exact arithmetic and make each policy observable.
 
 - Represent CLP in signed 64-bit whole pesos. Reject fractions, `float` inputs, non-finite values, malformed strings, and values outside the documented range; never truncate or coerce them.
 - Check overflow before every conversion and intermediate operation. Do not rely on PHP converting an overflowing integer to `float`.
+- Persist CLP in a signed `BIGINT`, RUT in a string column, and IVA in JSON with exactly integer `numerator` and `denominator` keys. Use `Iva::fromRatio()` / `fromArray()` and `toArray()`; ratios are reduced, zero is `0/1`, and null remains absent. Assign an `Iva` or a valid ratio array to its cast, not a float, percentage, or JSON string.
 - Model IVA rates as rational values. Select and document a named rounding policy before calculation, including ties and negative values.
 - For gross-price calculations, verify the invariant `net + IVA = gross` after rounding. Do not claim universal reversibility between net and gross values when rounding is involved.
 - The standard 19% IVA rate is a calculation default only. The consuming application decides whether a transaction is taxable or exempt.

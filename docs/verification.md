@@ -4,7 +4,7 @@ Recorded on 2026-11-06 for the local, unreleased checkout. These results are imp
 
 ## Runtime and compatibility
 
-The complete local matrix passed **12/12 cases** on macOS 15.6 arm64, using real 64-bit PHP interpreters and Composer 2.11.1. Each case ran the same unchanged source snapshot. No Composer platform emulation was used. [Machine-readable results](matrix-results.json) include interpreter/source hashes, exact dependency versions, lock hashes, checks, and exit codes.
+The pre-DX baseline local matrix passed **12/12 cases** on macOS 15.6 arm64, using real 64-bit PHP interpreters and Composer 2.11.1. Each case ran the same unchanged source snapshot. No Composer platform emulation was used. [Machine-readable results](matrix-results.json) include interpreter/source hashes, exact dependency versions, lock hashes, checks, and exit codes.
 
 | PHP | Dependency policy | Laravel | Testbench | Result |
 | --- | --- | --- | --- | --- |
@@ -29,7 +29,7 @@ The first matrix exposed upstream deprecations rather than package-domain failur
 
 The Laravel 12 floor remains deliberate: Laravel 12.24.0 and Testbench 10.5/core 10.6.1 contain the PHPUnit 12 error-handler restoration fixes. See the [Laravel release](https://github.com/laravel/framework/releases/tag/v12.24.0) and [Testbench requirements](https://github.com/orchestral/testbench/blob/v10.5.0/composer.json).
 
-The local run closes the PHP-version compatibility review. GitHub-hosted Linux jobs have not run; local results are not presented as remote CI results. The workflow mirrors the 12 runtime combinations and six production-consumer combinations. Reproduction commands are in [Contributing](../CONTRIBUTING.md).
+The baseline also passed all 18 GitHub-hosted Linux jobs in [run 42307301740](https://github.com/Geolize-Studio/laravel-chile/actions/runs/42307301740). The workflow mirrors the 12 runtime combinations and six production-consumer combinations. Reproduction commands are in [Contributing](../CONTRIBUTING.md).
 
 ## Consumer artifact and agent resources
 
@@ -68,11 +68,11 @@ These are targeted mutation checks, not a full Pest mutation score. `composer te
 
 ## Territory and maintenance
 
-All 48 Python automation tests pass: 36 source/proposal checks and 12 importer checks. The official hash-pinned workbook was rebuilt twice with the pinned LibreOffice converter in an isolated profile with macros, active content, and external-link updates disabled. Both catalog and manifest were byte-identical. The [manifest](../resources/territory/catalog-manifest.json) records the exact source and output hashes, counts, converter, and date distinctions.
+The baseline passed 48 Python automation tests: 36 source/proposal checks and 12 importer checks. The enum extension adds 12 generator tests, bringing the current total to 60. The official hash-pinned workbook was rebuilt twice with the pinned LibreOffice converter in an isolated profile with macros, active content, and external-link updates disabled. Both catalog and manifest were byte-identical. The [manifest](../resources/territory/catalog-manifest.json) records the exact source and output hashes, counts, converter, and date distinctions.
 
 The committed source-observation manifest validates. Live checks against the configured SUBDERE publication and attachments found no change in those monitored resources. The separate [final territorial review](territory-review.md) checked the controlling legal record and independent official datasets: all 16 region and 346 comuna CUTs match INE Censo 2024; DPA 2023 confirms the region/province hierarchy and 345 comuna polygons. Antártica is absent only from that geometry dataset. The current catalog is accepted for the stated CUT/hierarchy scope, with official naming conflicts and the limited decree-page visual check documented explicitly. No catalog data changed.
 
-An independent final review found no confirmed automation or packaging defect. Actionlint 1.7.12 passed all three workflows with no diagnostics, and action references are pinned. The scheduled source-review PR lifecycle has not been exercised in a remote repository; permissions, draft creation, approval-required checks, and schedule health remain deployment verification.
+An independent final review found no confirmed automation or packaging defect. Actionlint 1.7.12 passed all three workflows with no diagnostics, and action references are pinned. The official-source monitor passed remotely in [run 42307696415](https://github.com/Geolize-Studio/laravel-chile/actions/runs/42307696415). Sources were unchanged, so its PR step correctly skipped. A separate manual synthetic fixture exercises draft permissions; neither exercise proves a future changed-source review or long-term schedule health.
 
 ## Import baseline
 
@@ -80,6 +80,10 @@ An independent final review found no confirmed automation or packaging defect. A
 
 This is a machine-specific baseline, not a speed guarantee or CI timing budget. Domain source is independent of HTTP and SQL; an integration check also forbids Laravel HTTP requests and observes no database queries during catalog use.
 
+## Ergonomics extension
+
+After the baseline matrix, native territorial enums and direct value-object casts were added. Local verification passed 269 PHP tests with 16,471 assertions, 60 Python tests, maximum-level PHPStan, Pint, generator freshness, and executable examples. A production Laravel 13 consumer passed real SQLite enum/value-object persistence, serialization, null and dirty checks before and after configuration caching, without development dependencies. An independent review found no actionable defect in the 18 implementation/test files it reviewed. The table above remains baseline evidence rather than evidence for these additions; exact-commit remote checks are required before tagging.
+
 ## Before public release
 
-The local matrix and final CUT/hierarchy review are complete. Publication work remains: configure the public repository, private security reporting, and source-update permissions; execute the GitHub-hosted checks and a real draft source-review PR; then verify the immutable tagged artifact and Packagist installation. No public repository, tag, Packagist submission, or production integration was performed by this local implementation work.
+The public repository and private security reporting are configured. No immutable version tag or Packagist submission exists yet. A release still requires exact-commit checks and verification of tagged-artifact and Packagist installation. Agent discovery claims remain limited to tested resource delivery and integration tasks.

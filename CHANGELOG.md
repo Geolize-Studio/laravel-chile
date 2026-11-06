@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Native backed region, province, and comuna enums with stable case identities, hierarchy helpers, and filtered options.
+- Direct Eloquent value-object casts for RUT, CLP, and exact rational IVA rates, including strict serialization and semantic dirty detection.
+
 - Strict RUT value objects, validation, canonical storage, formatting, and Laravel casts.
 - Whole-peso CLP values and exact rational IVA calculations with explicit rounding.
 - Offline CUT catalog from the hash-pinned SUBDERE workbook, hierarchy lookup, conservative comuna resolution, and isolated aliases.

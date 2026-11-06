@@ -3,7 +3,10 @@
 declare(strict_types=1);
 
 use GeolizeStudio\Chile\Clp;
+use GeolizeStudio\Chile\Comuna;
 use GeolizeStudio\Chile\Iva;
+use GeolizeStudio\Chile\Province;
+use GeolizeStudio\Chile\Region;
 use GeolizeStudio\Chile\RoundingMode;
 use GeolizeStudio\Chile\Rut;
 use GeolizeStudio\Chile\Territory;
@@ -24,6 +27,10 @@ if ($rut->toString() !== '12345678-5'
     || $place->status !== ResolutionStatus::Matched
     || $place->match?->code !== '13120'
     || $territory->comuna('01101')?->name !== 'Iquique'
+    || Comuna::Iquique->value !== '01101'
+    || Comuna::Nunoa->region() !== Region::Metropolitana
+    || Comuna::Nunoa->province() !== Province::Santiago
+    || Comuna::options(region: Region::Tarapaca)['01101'] !== 'Iquique'
     || Clp::tryParse('1.234,56') !== null
     || $price->tax->pesos() !== 1_900
     || $price->gross->pesos() !== 11_900) {
