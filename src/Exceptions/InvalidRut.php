@@ -20,7 +20,7 @@ final class InvalidRut extends InvalidArgumentException
 
     public static function invalidFormat(): self
     {
-        return new self('invalid_format', 'A RUT must contain a valid numeric body, a hyphen, and a DV.');
+        return new self('invalid_format', 'A RUT must contain a valid numeric body and a DV, with optional grouping and hyphen.');
     }
 
     public static function invalidChecksum(): self

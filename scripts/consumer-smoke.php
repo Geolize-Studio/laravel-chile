@@ -23,6 +23,16 @@ require __DIR__.'/vendor/autoload.php';
 $app = require __DIR__.'/bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
 
+$expectedFormat = $argv[1] ?? 'canonical';
+$expectedRut = match ($expectedFormat) {
+    'canonical' => '12345678-5',
+    'compact' => '123456785',
+    default => throw new RuntimeException('Unknown consumer RUT format.'),
+};
+if ($app['config']->get('chile.rut.format', 'canonical') !== $expectedFormat) {
+    throw new RuntimeException('The published RUT configuration was not loaded.');
+}
+
 if (! $app->getProvider(ChileServiceProvider::class)
     || ! $app->bound(Territory::class)
     || $app->make(Territory::class) !== $app->make(Territory::class)) {
@@ -92,7 +102,9 @@ $record = ConsumerRecord::create([
 ])->fresh();
 
 if ($record === null || $record->amount->pesos() !== -50
-    || $record->rut->toString() !== '12345678-5'
+    || $record->rut->toString() !== $expectedRut
+    || (string) $record->rut !== $expectedRut
+    || json_encode($record->rut, JSON_THROW_ON_ERROR) !== json_encode($expectedRut, JSON_THROW_ON_ERROR)
     || $record->iva_rate->toArray() !== ['numerator' => 19, 'denominator' => 100]
     || $record->rounding !== RoundingMode::HalfAwayFromZero
     || $record->region !== Region::Tarapaca
@@ -104,7 +116,7 @@ if ($record === null || $record->amount->pesos() !== -50
 
 $expected = [
     'amount' => -50,
-    'rut' => '12345678-5',
+    'rut' => $expectedRut,
     'iva_rate' => ['numerator' => 19, 'denominator' => 100],
     'rounding' => 'half_away_from_zero',
     'region' => '01',

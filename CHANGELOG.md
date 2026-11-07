@@ -1,5 +1,14 @@
 # Changelog
 
+## Unreleased — 0.2 development
+
+- Accept compact and correctly grouped RUT strings with an optional hyphen, while validating every supplied DV.
+- Add the `RutFormat` enum and immutable `Rut::withFormat()` output selection.
+- Add optional `config/chile.php` publishing through `chile-config`. The `chile.rut.format` setting chooses RUT storage and output for Eloquent casts, with an optional per-attribute override.
+- Preserve historical RUT storage on reads and unrelated saves. Explicit assignment writes the selected format.
+
+These additions are available in this source checkout. The published release remains `0.1.0`.
+
 ## 0.1.0 — 2026-11-06
 
 First public release. During `0.x`, APIs may change in a minor release. The `^0.1` Composer constraint accepts patch releases below `0.2.0`.

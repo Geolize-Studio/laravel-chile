@@ -1,10 +1,10 @@
 # Developer experience
 
-This guide describes the `0.1.0` package API. Its public surface is three immutable domains and a small Laravel adapter layer. See [verification evidence](verification.md) for what has actually run.
+This guide describes the source checkout, including unreleased `0.2` RUT format configuration and compact input support. The published release is `0.1.0`. Its public surface is three immutable domains and a small Laravel adapter layer. See [verification evidence](verification.md) for completed checks and their revision.
 
 ## Package shape
 
-[Laravel package discovery](https://laravel.com/docs/13.x/packages) registers `ChileServiceProvider` through Composer metadata. The provider binds one lazy `Territory` singleton. No config publishing, migration, facade, install command, database model, view, or HTTP client is required.
+[Laravel package discovery](https://laravel.com/docs/13.x/packages) registers `ChileServiceProvider` through Composer metadata. The provider binds one lazy `Territory` singleton and merges the RUT format default. Applications can publish `config/chile.php` through the optional `chile-config` tag to choose RUT storage and output.
 
 The [Spatie Laravel skeleton](https://github.com/spatie/package-skeleton-laravel) and [Package Tools](https://github.com/spatie/laravel-package-tools) inform the structure: focused metadata, a small provider, Testbench integration, clear documentation, and routine quality checks. Optional resources are added only when they solve an actual consumer need. Package Tools itself is not a dependency because this provider needs only one binding.
 
@@ -16,15 +16,18 @@ Runtime dependencies are explicit Illuminate components and extensions; test too
 | --- | --- | --- |
 | Validate and construct a RUT | `Rut::parse(mixed)` | `InvalidRut`, with a stable reason; no sensitive input echoed |
 | Attempt a RUT | `Rut::tryParse(mixed)` | `null` for domain validation failure |
+| Select a RUT output format | `Rut::withFormat(RutFormat)` | A new immutable value, preserving the parsed body and DV |
 | Construct integer pesos | `Clp::fromPesos(mixed)` | Rejects non-integers even from weak PHP callers |
 | Parse supported CLP input | `Clp::parse(mixed)` / `tryParse(mixed)` | Domain exception / `null`; never silently truncates |
 | Calculate IVA | `Iva::fromNet()` / `fromGross()` | Explicit rounding required; checked arithmetic overflow |
 | Look up a CUT | `Territory::region()` / `province()` / `comuna()` | Unknown string code returns `null` |
 | Resolve a comuna name | `Territory::resolveComuna()` | Result distinguishes matched, ambiguous, and not found |
 
-RUT and CLP values are final and readonly. Their constructors are private. JSON is the canonical RUT string or integer pesos. `TaxCalculation` exposes net, tax, gross, rate, rounding, and input basis, preserving `net + tax = gross`.
+RUT and CLP values are final and readonly. Their constructors are private. RUT JSON uses its selected output format, with canonical output as the domain default. CLP JSON uses integer pesos. `TaxCalculation` exposes net, tax, gross, rate, rounding, and input basis, preserving `net + tax = gross`.
 
-Request rules and Eloquent casts reuse the same domain parsing. Laravel's `required` / `nullable` rules control presence. Casts preserve null, reject invalid historic data, and disable Eloquent object caching so reading a presentation variant does not silently rewrite it on save. Explicit assignment canonicalizes storage. See the [RUT](rut.md) and [money](money.md) guides for exact grammars and examples.
+Request rules and Eloquent casts reuse the same domain parsing. Laravel's `required` / `nullable` rules control presence. Casts preserve null, reject invalid historic data, and disable Eloquent object caching so reading a presentation variant preserves its stored form on an unrelated save. Explicit RUT assignment uses the cast's selected format. See the [RUT](rut.md) and [money](money.md) guides for exact grammars and examples.
+
+The Laravel RUT cast reads `chile.rut.format` and supports a per-attribute parameter such as `Rut::class.':compact'`. `Rut::parse()` retains a deterministic canonical default outside that adapter. Use `withFormat()` for a domain value's string/JSON preference, or `format(RutFormat)` for explicit rendering. This keeps configuration at the Laravel boundary while supporting application-specific storage conventions.
 
 ## Territory lifecycle
 

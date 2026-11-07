@@ -2,6 +2,8 @@
 
 The package's immutable values work directly in Laravel's `casts()` method. Use `Rut::class`, `Clp::class`, and `Iva::class` for value objects, and native enum classes for territory and rounding. The package provides the casts; your application owns its models, schema, validation, and data migration.
 
+Configurable RUT formats and compact input in this guide belong to unreleased `0.2` development. The published `0.1.0` release uses canonical RUT storage and requires a hyphen in input.
+
 ## Schema and model
 
 A minimal application migration can use these column types:
@@ -48,6 +50,25 @@ class Invoice extends Model
 
 `Rut`, `Clp`, and `Iva` implement Laravel's `Castable` contract. The explicit adapters `GeolizeStudio\Chile\Laravel\Casts\RutCast`, `ClpCast`, and `IvaCast` remain valid entries in the same map. Territory and rounding use Laravel's native enum casts without package-specific adapters.
 
+### RUT configuration — unreleased
+
+Publish `config/chile.php` using `php artisan vendor:publish --tag=chile-config`, then set `rut.format` to `canonical`, `compact`, or `formatted`. The default is `canonical`. This selects the representation used for explicit writes, cast value string/JSON output, and model array/JSON serialization.
+
+```php
+// config/chile.php
+return [
+    'rut' => ['format' => 'compact'],
+];
+
+// An attribute can override the application setting.
+protected function casts(): array
+{
+    return ['rut' => Rut::class.':formatted'];
+}
+```
+
+All three formats accept the same validated input variants. The largest supported RUT needs 9 characters in compact form, 10 in canonical form, or 12 in formatted form. Adjust the example schema's RUT column length before selecting formatted storage. Reading historical values preserves their stored representation on an unrelated save. Explicit assignment applies the selected format. See the [RUT guide](rut.md#eloquent-storage-and-output) for the complete contract.
+
 ## Assignment and serialization
 
 ```php
@@ -73,7 +94,7 @@ $calculation->gross->pesos(); // 11900
 
 | Cast | Accepted assignments, besides `null` | Model array / JSON value |
 | --- | --- | --- |
-| `Rut::class` | `Rut` or a valid documented RUT string | Canonical string, such as `'12345678-5'` |
+| `Rut::class` | `Rut` or a valid documented RUT string | Selected format, defaulting to `'12345678-5'` in canonical form |
 | `Clp::class` | `Clp`, integer pesos, or a documented CLP string | Integer pesos, such as `10000` |
 | `Iva::class` | `Iva` or an array with exactly integer `numerator` and `denominator` | Object-shaped ratio, such as `{"numerator":19,"denominator":100}` |
 | `Region::class`, `Province::class`, `Comuna::class` | Matching enum case or complete string CUT | String CUT, including leading zeros |

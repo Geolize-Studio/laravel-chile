@@ -82,6 +82,16 @@ def main() -> None:
         run(["php", "artisan", "config:cache"], app)
         run(["php", "smoke.php"], app)
         run(["php", "artisan", "config:clear"], app)
+        if not arguments.package_version or (installed / "config/chile.php").exists():
+            run(["php", "artisan", "vendor:publish", "--tag=chile-config", "--no-interaction"], app)
+            config = app / "config/chile.php"
+            if not config.exists():
+                raise RuntimeError("The package configuration could not be published.")
+            config.write_text("<?php\nreturn ['rut' => ['format' => 'compact']];\n")
+            run(["php", "smoke.php", "compact"], app)
+            run(["php", "artisan", "config:cache"], app)
+            run(["php", "smoke.php", "compact"], app)
+            run(["php", "artisan", "config:clear"], app)
         print("Production consumer archive, discovery, examples, and config cache passed.")
         if arguments.with_boost:
             run(["composer", "require", "--dev", "laravel/boost:^2.10", "--no-scripts", "--no-interaction", "--prefer-dist"], app)

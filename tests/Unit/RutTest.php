@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use GeolizeStudio\Chile\Exceptions\InvalidRut;
 use GeolizeStudio\Chile\Rut;
+use GeolizeStudio\Chile\RutFormat;
 
 dataset('valid RUT values', [
     ['1-9', '1-9', '1-9'],
@@ -18,6 +19,12 @@ dataset('valid RUT values', [
     ['12.345.670-k', '12345670-K', '12.345.670-K'],
     ['  12345670-K  ', '12345670-K', '12.345.670-K'],
     ['99.999.999-9', '99999999-9', '99.999.999-9'],
+    ['123456785', '12345678-5', '12.345.678-5'],
+    ['12345670k', '12345670-K', '12.345.670-K'],
+    ['12.345.6785', '12345678-5', '12.345.678-5'],
+    ['12.345.670k', '12345670-K', '12.345.670-K'],
+    ['19', '1-9', '1-9'],
+    ['1234560', '123456-0', '123.456-0'],
 ]);
 
 it('parses complete RUT values into canonical and formatted representations', function (string $input, string $canonical, string $formatted): void {
@@ -39,13 +46,16 @@ dataset('malformed RUT values', [
     'empty' => [''],
     'spaces only' => ['   '],
     'missing DV' => ['12.345.678'],
-    'missing hyphen' => ['123456785'],
     'missing body' => ['-5'],
     'trailing hyphen' => ['12345678-'],
     'multiple DV digits' => ['12345678-55'],
     'prefix' => ['abc12345678-5'],
     'suffix' => ['12345678-5abc'],
     'bad grouping' => ['1.2345.678-5'],
+    'bad grouping without hyphen' => ['1.2345.6785'],
+    'multiple hyphens' => ['12.345.678--5'],
+    'compact leading zero' => ['0123456785'],
+    'compact body too long' => ['1234567892'],
     'partial grouping' => ['12345.678-5'],
     'leading dot' => ['.12345678-5'],
     'trailing dot' => ['12345678.-5'],
@@ -85,7 +95,7 @@ it('rejects incorrect check digits', function (string $input): void {
     }
 
     expect(Rut::tryParse($input))->toBeNull();
-})->with(['12345678-4', '12345670-0', '123456-1', '1-K', '99999999-0']);
+})->with(['12345678-4', '12345670-0', '123456-1', '1-K', '99999999-0', '123456784', '123456700', '12.345.6784']);
 
 it('does not coerce non-string input', function (mixed $input): void {
     try {
@@ -119,3 +129,22 @@ it('remains immutable after construction', function (): void {
     expect(fn () => $rut->body = '12345670')->toThrow(Error::class)
         ->and($rut->toString())->toBe('12345678-5');
 });
+
+it('renders each output format without changing the identifier or original preference', function (string $format, string $expected): void {
+    $original = Rut::parse('12.345.670-k');
+    $preferred = $original->withFormat(RutFormat::from($format));
+
+    expect($preferred->toString())->toBe($expected)
+        ->and((string) $preferred)->toBe($expected)
+        ->and(json_encode($preferred, JSON_THROW_ON_ERROR))->toBe('"'.$expected.'"')
+        ->and($preferred->body())->toBe('12345670')
+        ->and($preferred->dv())->toBe('K')
+        ->and($preferred->format())->toBe('12.345.670-K')
+        ->and($original->toString())->toBe('12345670-K')
+        ->and($original->format(RutFormat::from($format)))->toBe($expected)
+        ->and(Rut::parse($expected)->toString())->toBe('12345670-K');
+})->with([
+    'canonical' => ['canonical', '12345670-K'],
+    'compact' => ['compact', '12345670K'],
+    'formatted' => ['formatted', '12.345.670-K'],
+]);

@@ -22,6 +22,8 @@ composer require "geolize-studio/laravel-chile:^0.1"
 
 `0.1.0` is the first public release. During `0.x`, APIs may change in a minor release; the `^0.1` constraint stays below `0.2.0`. Review the [changelog](CHANGELOG.md) before upgrading and commit your application's Composer lock file. No custom Composer repository is required.
 
+This source checkout also contains unreleased `0.2` RUT improvements. Compact input, `RutFormat`, and configurable RUT storage/output are described below and in the [RUT guide](docs/rut.md). Their availability requires this development source until a release is published.
+
 For package development from a source checkout:
 
 ```sh
@@ -66,6 +68,23 @@ Clp::tryParse('1.234,56'); // null: fractional pesos are rejected.
 ```
 
 The [executable quickstart](examples/quickstart.php) asserts these results. Outside Laravel, use `Territory::loadDefault()` and reuse the returned instance. No configuration publishing, database migration, or facade is required.
+
+### Configurable RUT format — unreleased
+
+The development parser accepts `12.345.678-5`, `12345678-5`, `123456785`, and `12.345.6785`, validating the DV in every case. Eloquent uses `canonical` by default. Publish the configuration to choose `compact` or `formatted` for storage and output.
+
+```sh
+php artisan vendor:publish --tag=chile-config
+```
+
+```php
+// config/chile.php
+return [
+    'rut' => ['format' => 'compact'],
+];
+```
+
+With `'rut' => Rut::class` in a model's `casts()`, assigning `'12.345.678-5'` stores `'123456785'`. Reading the attribute, converting it to a string, and serializing the model use that selected format. Use `Rut::class.':formatted'` for an attribute-specific override. The [RUT guide](docs/rut.md#eloquent-storage-and-output) covers format lengths, historical data, and explicit formatting outside Eloquent.
 
 ## Laravel integration
 

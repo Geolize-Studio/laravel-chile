@@ -12,7 +12,11 @@ use Stringable;
 
 final readonly class Rut implements Castable, JsonSerializable, Stringable
 {
-    private function __construct(private string $body, private string $dv) {}
+    private function __construct(
+        private string $body,
+        private string $dv,
+        private RutFormat $outputFormat = RutFormat::Canonical,
+    ) {}
 
     /**
      * @param  array<string>  $arguments
@@ -31,7 +35,7 @@ final readonly class Rut implements Castable, JsonSerializable, Stringable
 
         $value = trim($value, ' ');
 
-        if (preg_match('/\A([1-9][0-9]{0,7}|[1-9][0-9]{0,2}(?:\.[0-9]{3}){1,2})-([0-9kK])\z/', $value, $matches) !== 1) {
+        if (preg_match('/\A([1-9][0-9]{0,7}|[1-9][0-9]{0,2}(?:\.[0-9]{3}){1,2})-?([0-9kK])\z/', $value, $matches) !== 1) {
             throw InvalidRut::invalidFormat();
         }
 
@@ -71,12 +75,21 @@ final readonly class Rut implements Castable, JsonSerializable, Stringable
 
     public function toString(): string
     {
-        return $this->body.'-'.$this->dv;
+        return $this->format($this->outputFormat);
     }
 
-    public function format(): string
+    public function withFormat(RutFormat $format): self
     {
-        return strrev(implode('.', str_split(strrev($this->body), 3))).'-'.$this->dv;
+        return new self($this->body, $this->dv, $format);
+    }
+
+    public function format(RutFormat $format = RutFormat::Formatted): string
+    {
+        return match ($format) {
+            RutFormat::Canonical => $this->body.'-'.$this->dv,
+            RutFormat::Compact => $this->body.$this->dv,
+            RutFormat::Formatted => strrev(implode('.', str_split(strrev($this->body), 3))).'-'.$this->dv,
+        };
     }
 
     public function __toString(): string

@@ -5,7 +5,7 @@ description: Implement or integrate geolize-studio/laravel-chile domain features
 
 # Chile Development
 
-`geolize-studio/laravel-chile` provides RUT, territory, and money modules in the public [Laravel Chile repository](https://github.com/Geolize-Studio/laravel-chile). This skill describes `0.1.0`. Install the `0.1` release line with `composer require "geolize-studio/laravel-chile:^0.1"` from Packagist; no custom VCS repository is required. During `0.x`, APIs may change in minor releases, so inspect the changelog before widening the version constraint. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
+`geolize-studio/laravel-chile` provides RUT, territory, and money modules in the public [Laravel Chile repository](https://github.com/Geolize-Studio/laravel-chile). The published release is `0.1.0`, installed with `composer require "geolize-studio/laravel-chile:^0.1"` from Packagist. This source-checkout skill also documents unreleased `0.2` RUT improvements. Compact input, `RutFormat`, `withFormat()`, and `chile.rut.format` require that development source. During `0.x`, APIs may change in minor releases, so inspect the changelog before widening the version constraint. Before integrating, inspect the installed source, Composer constraints, tests, and version. Verify actual exports rather than assuming a newer feature exists.
 
 ## Implemented API
 
@@ -37,7 +37,7 @@ Comuna::options(region: Region::Metropolitana); // CUT-to-label pairs.
 Iva::standard()->toArray(); // ['numerator' => 19, 'denominator' => 100]
 ```
 
-Use `Rut::class`, `Clp::class`, and `Iva::class` directly in a model's `casts()` map. Explicit adapters `GeolizeStudio\Chile\Laravel\Casts\RutCast`, `ClpCast`, and `IvaCast` are also exported. Root-namespace `Region`, `Province`, and `Comuna`, plus `RoundingMode`, use Laravel's native enum casting. Instantiate `GeolizeStudio\Chile\Laravel\Rules\RutRule` and `ClpRule` for requests; use `Rule::enum(Comuna::class)` with a `string` rule for CUT input. Laravel's required/nullable rules control presence. Casts preserve null, reject malformed historical values, and avoid rewriting a value just because it was read. No facade, config publishing, migration, or translation resource is exported.
+Use `Rut::class`, `Clp::class`, and `Iva::class` directly in a model's `casts()` map. Explicit adapters `GeolizeStudio\Chile\Laravel\Casts\RutCast`, `ClpCast`, and `IvaCast` are also exported. Root-namespace `Region`, `Province`, and `Comuna`, plus `RoundingMode`, use Laravel's native enum casting. Instantiate `GeolizeStudio\Chile\Laravel\Rules\RutRule` and `ClpRule` for requests; use `Rule::enum(Comuna::class)` with a `string` rule for CUT input. Laravel's required/nullable rules control presence. Casts preserve null, reject malformed historical values, and avoid rewriting a value just because it was read. In the development source, the optional `chile-config` publication tag exposes RUT format configuration.
 
 Resolve the package root with `Composer\InstalledVersions::getInstallPath('geolize-studio/laravel-chile')`, or use the checkout root during package development. Documentation and example paths here are relative to that package root, not the consumer app or installed skill directory. Read `docs/rut.md`, `docs/money.md`, and `docs/territory.md` for full grammars and failure contracts, `docs/enums.md` for native territory enums, and `docs/eloquent.md` for persistence; `examples/quickstart.php` is executable. Requirements are 64-bit PHP 8.3+, intl, mbstring, and Illuminate 12.24+ or 13. Consult `docs/verification.md` for tested combinations rather than treating CI configuration as execution evidence.
 
@@ -59,6 +59,16 @@ Treat parsing, mathematical validation, identity, and presentation as separate c
 - Preserve `null` separately from an invalid value. A malformed value must produce the package's documented error or result, never an empty or zero-like substitute.
 - Use an uppercase `K` in canonical representation only after validation. Mathematical validity does not prove that a RUT exists, identifies its holder, or establishes tax status.
 - When integrating Laravel validation or casts, inspect the installed rule and cast behavior first. Do not silently rewrite historical malformed database values.
+
+### Configurable formats — unreleased
+
+The development parser accepts properly grouped or ungrouped RUT strings with an optional ASCII hyphen, including `123456785` and `12.345.6785`. It validates the final DV in every form. Input remains string-only, with surrounding ASCII spaces accepted and arbitrary characters rejected. `RutRule` uses the same parser.
+
+Publish `config/chile.php` with `php artisan vendor:publish --tag=chile-config`. Set `rut.format` to `canonical` (default), `compact`, or `formatted`. That setting controls the RUT cast's explicit writes, returned value string/JSON output, and model array/JSON serialization. `Rut::class.':compact'` and `RutCast::class.':compact'` override the application setting for one attribute. Invalid settings raise `InvalidArgumentException`.
+
+`RutFormat::Canonical`, `Compact`, and `Formatted` are root-namespace enum cases. `Rut::parse()` creates a canonical-output domain value. `withFormat(RutFormat::Compact)` creates a new immutable value whose `toString()`, string conversion, and JSON use compact output. `format()` explicitly renders dotted presentation, and `format(RutFormat::Canonical)` renders canonical text. Keep Laravel configuration lookup inside the adapter layer.
+
+Use string column lengths of at least 9 for compact, 10 for canonical, or 12 for formatted RUTs. Choose 12 when all formats may be selected. Reads and unrelated saves preserve historical raw values. Explicit assignment applies the selected format. Review existing values and potential duplicates before a backfill.
 
 ## Territory
 
