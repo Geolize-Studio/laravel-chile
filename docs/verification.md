@@ -90,6 +90,8 @@ After the baseline matrix, native territorial enums and direct value-object cast
 
 The configurable RUT source extension passed 310 PHP tests with 16,688 assertions, maximum-level PHPStan, Pint, and 60 Python automation tests on PHP 8.4.14. Disposable Laravel 12 and 13 applications installed a local Composer archive and exercised the default format plus published compact-format configuration before and after `config:cache`. The Laravel 13 consumer also passed Boost guideline and skill installation, update, and restoration. The public `0.1.0` artifact retains its original API. These results cover the development source and local archive.
 
+Commit `affeadce1d66d97e546e9f0db9d5b3bf69fa2903` passed all 18 Linux matrix jobs across PHP 8.3–8.5 and Laravel 12–13, including lowest/highest dependencies and six production consumers with Boost. [RUT configuration compatibility run](https://github.com/Geolize-Studio/laravel-chile/actions/runs/42319253016).
+
 The public repository, Packagist package, and private security reporting are configured. Release preparation verifies the exact commit before tagging. Once Packagist indexes the tag, run the public consumer check and record its result in the GitHub release notes.
 
 ```sh
